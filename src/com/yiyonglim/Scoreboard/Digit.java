@@ -1,6 +1,7 @@
-package Scoreboard;
+package com.yiyonglim.Scoreboard;
 
-import Actor.Actor;
+import com.yiyonglim.Actor.Actor;
+
 import javafx.scene.image.Image ;
 
 // Handle score board

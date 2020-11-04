@@ -1,10 +1,11 @@
-package Scene ;
+package com.yiyonglim.Scene ;
 
 
 import java.util.ArrayList ;
 import java.util.List ;
 
-import Actor.Actor;
+import com.yiyonglim.Actor.Actor;
+
 import javafx.animation.AnimationTimer ;
 import javafx.beans.value.ChangeListener ;
 import javafx.beans.value.ObservableValue ;
@@ -12,9 +13,7 @@ import javafx.event.EventHandler ;
 import javafx.scene.Node ;
 import javafx.scene.Scene ;
 import javafx.scene.input.KeyEvent ;
-import javafx.scene.layout.FlowPane ;
 import javafx.scene.layout.Pane ;
-import javafx.scene.layout.StackPane ;
 
 // Handle scene
 public abstract class World extends Pane {
@@ -100,7 +99,8 @@ public abstract class World extends Pane {
     }
 
     // Saving actor into array
-    public <A extends Actor> List<A> getObjects(Class<A> cls) {
+    @SuppressWarnings("unchecked")
+	public <A extends Actor> List<A> getObjects(Class<A> cls) {
         ArrayList<A> someArray = new ArrayList<A>() ;
         for (Node n: getChildren()) {
             if (cls.isInstance(n)) {

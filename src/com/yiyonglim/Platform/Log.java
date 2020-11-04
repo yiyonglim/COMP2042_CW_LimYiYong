@@ -1,6 +1,7 @@
-package Platform;
+package com.yiyonglim.Platform;
 
-import Actor.Actor;
+import com.yiyonglim.Actor.Actor;
+
 import javafx.scene.image.Image ;
 
 // Handle log

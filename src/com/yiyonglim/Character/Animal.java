@@ -1,18 +1,20 @@
-package Character ;
+package com.yiyonglim.Character ;
 
 import java.util.ArrayList ;
 
-import Actor.Actor;
-import Goal.End;
-import Obstacle.Obstacle;
-import Platform.Log;
-import Platform.Turtle;
-import Platform.WetTurtle;
+import com.yiyonglim.Actor.Actor;
+import com.yiyonglim.Goal.End;
+import com.yiyonglim.Obstacle.Obstacle;
+import com.yiyonglim.Platform.Log;
+import com.yiyonglim.Platform.Turtle;
+import com.yiyonglim.Platform.WetTurtle;
+
 import javafx.event.EventHandler ;
 
 import javafx.scene.image.Image ;
 import javafx.scene.input.KeyCode ;
 import javafx.scene.input.KeyEvent ;
+import javafx.stage.Stage;
 
 // Handle frog
 // Frog --> user control character
@@ -77,10 +79,17 @@ public class Animal extends Actor {
 		imgS2 = new Image("file:Resources/Frog/froggerDownJump.png", imgSize, imgSize, true, true) ;
 		imgD2 = new Image("file:Resources/Frog/froggerRightJump.png", imgSize, imgSize, true, true) ;
 		
-		// Frog movement when user press the key (W , A , S , D)
+		// Detect keys pressed by user and react accordingly
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
 			// How pressed key is handled
 			public void handle(KeyEvent event) {
+				// Exit game
+				if (event.getCode() == KeyCode.ESCAPE) {	  
+					Stage stage = (Stage) getScene().getWindow();
+					stage.close();
+
+	            }
+				// Frog movement
 				// Check current movement state of frog (stationary or moving)
 				if (noMove) {
 					

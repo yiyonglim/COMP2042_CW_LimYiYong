@@ -1,10 +1,12 @@
-package Scene ;
+package com.yiyonglim.Scene ;
 
 import java.io.File ;
 
+import javafx.event.EventHandler;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.media.Media ;
 import javafx.scene.media.MediaPlayer ;
-import javafx.util.Duration ;
 
 public class MyStage extends World {
 	// Set up media player
@@ -17,7 +19,15 @@ public class MyStage extends World {
 	
 	// Setting stages
 	public MyStage() {
-		
+		// Detect if user quit the game , stop music
+		setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent event){
+				if (event.getCode() == KeyCode.ESCAPE) {	  
+					stopMusic() ;  
+				}
+			}
+
+		});	
 	}
 	
 	// Play music

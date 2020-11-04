@@ -1,6 +1,7 @@
-package Obstacle ;
+package com.yiyonglim.Obstacle ;
 
-import Actor.Actor;
+import com.yiyonglim.Actor.Actor;
+
 import javafx.scene.image.Image ;
 
 // Handle obstacles (car , truck)

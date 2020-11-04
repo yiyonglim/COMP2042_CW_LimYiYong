@@ -1,10 +1,10 @@
-package Actor ;
+package com.yiyonglim.Actor ;
 
 import javafx.scene.image.ImageView ;
 
 import java.util.ArrayList ;
 
-import Scene.World;
+import com.yiyonglim.Scene.World;
 
 // Handle actors
 // Actors --> all objects which involved in game

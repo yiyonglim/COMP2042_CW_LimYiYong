@@ -1,27 +1,21 @@
-package Main ;
+package com.yiyonglim.Main ;
 
-import java.io.File ;
-import java.util.List ;
+import com.yiyonglim.Character.Animal;
+import com.yiyonglim.Goal.End;
+import com.yiyonglim.Obstacle.Obstacle;
+import com.yiyonglim.Platform.Log;
+import com.yiyonglim.Platform.Turtle;
+import com.yiyonglim.Platform.WetTurtle;
+import com.yiyonglim.Scene.BackgroundImage;
+import com.yiyonglim.Scene.MyStage;
+import com.yiyonglim.Scoreboard.Digit;
 
-import Character.Animal;
-import Goal.End;
-import Obstacle.Obstacle;
-import Platform.Log;
-import Platform.Turtle;
-import Platform.WetTurtle;
-import Scene.BackgroundImage;
-import Scene.MyStage;
-import Scoreboard.Digit;
 import javafx.animation.AnimationTimer ;
 import javafx.application.Application ;
 import javafx.scene.Scene ;
 import javafx.scene.control.Alert ;
 import javafx.scene.control.Alert.AlertType ;
-import javafx.scene.media.Media ;
-import javafx.scene.media.MediaPlayer ;
-import javafx.scene.text.Text ;
 import javafx.stage.Stage ;
-import javafx.util.Duration ;
 
 public class Main extends Application {
 	// Create general timer, called when the JavaFX program started to run
@@ -48,7 +42,7 @@ public class Main extends Application {
 	    Scene scene  = new Scene(background,600,800) ;
 
 	    // Initialize map
-		BackgroundImage froggerback = new BackgroundImage("file:Resources/Map/iKogsKW.png") ;
+		BackgroundImage froggerback = new BackgroundImage("file:Resources/GameBackground/iKogsKW.png") ;
 	    
 		// Add to scene
 		background.add(froggerback) ;
