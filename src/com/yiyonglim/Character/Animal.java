@@ -41,7 +41,7 @@ public class Animal extends Actor {
 	// Set jump distance of frog (left , right)
 	double movementX = 10.666666*2 ;
 	// Initialize limit line for scoring , score will be added when passing it 
-	double w = 700 ;
+	double w = 800 ;
 	// Initialize jumping state of frog , two actions are done when frog jumps
 	// true -> fold legs , false -> unfold legs
 	private boolean second = false ;
@@ -68,7 +68,7 @@ public class Animal extends Actor {
 		setImage(new Image(imageLink, imgSize, imgSize, true, true)) ;
 		// Set starting point of frog
 		setX(300) ;
-		setY(679.8+movement) ;
+		setY(730+movement) ;
 		// Images of frog moving
 		imgW1 = new Image("file:Resources/Frog/froggerUp.png", imgSize, imgSize, true, true) ;
 		imgA1 = new Image("file:Resources/Frog/froggerLeft.png", imgSize, imgSize, true, true) ;
@@ -98,45 +98,45 @@ public class Animal extends Actor {
 				// Check which key is pressed and response respectively
 				// Set jumping state of frog (extend or fold)
 				if (second) { // Move upward
-					if (event.getCode() == KeyCode.W) {	  
+					if (event.getCode() == KeyCode.UP) {	  
 		                move(0, -movement) ;
 		                // Change state of score
 		                changeScore = false ;
 		                setImage(imgW1) ;
 		                second = false ;
 		            } // Move left
-		            else if (event.getCode() == KeyCode.A) {	            	
+		            else if (event.getCode() == KeyCode.LEFT) {	            	
 		            	 move(-movementX, 0) ;
 		            	 setImage(imgA1) ;
 		            	 second = false ;
 		            } // Move backward
-		            else if (event.getCode() == KeyCode.S) {	            	
+		            else if (event.getCode() == KeyCode.DOWN) {	            	
 		            	 move(0, movement) ;
 		            	 setImage(imgS1) ;
 		            	 second = false ;
 		            } // Move right
-		            else if (event.getCode() == KeyCode.D) {	            	
+		            else if (event.getCode() == KeyCode.RIGHT) {	            	
 		            	 move(movementX, 0) ;
 		            	 setImage(imgD1) ;
 		            	 second = false ;
 		            }
 				} // Move upward
-				else if (event.getCode() == KeyCode.W) {	            	
+				else if (event.getCode() == KeyCode.UP) {	            	
 	                move(0, -movement) ;
 	                setImage(imgW2) ;
 	                second = true ;
 	            } // Move Left
-	            else if (event.getCode() == KeyCode.A) {	            	
+	            else if (event.getCode() == KeyCode.LEFT) {	            	
 	            	 move(-movementX, 0) ;
 	            	 setImage(imgA2) ;
 	            	 second = true ;
 	            } // Move backward
-	            else if (event.getCode() == KeyCode.S) {	            	
+	            else if (event.getCode() == KeyCode.DOWN) {	            	
 	            	 move(0, movement) ;
 	            	 setImage(imgS2) ;
 	            	 second = true ;
 	            } // Move right
-	            else if (event.getCode() == KeyCode.D) {	            	
+	            else if (event.getCode() == KeyCode.RIGHT) {	            	
 	            	 move(movementX, 0) ;
 	            	 setImage(imgD2) ;
 	            	 second = true ;
@@ -157,7 +157,7 @@ public class Animal extends Actor {
 				// Check which key is released and response respectively
 				// Set jumping state of frog (extend or fold)
 				// Move upward
-				if (event.getCode() == KeyCode.W) {
+				if (event.getCode() == KeyCode.UP) {
 					// Check limit line for scoring , score will be added when passing it
 					if (getY() < w) {
 						w = getY() ;
@@ -169,17 +169,17 @@ public class Animal extends Actor {
 	                	setImage(imgW1) ;
 	                	second = false ;
 	            } // Move right
-	            else if (event.getCode() == KeyCode.A) {	            	
+	            else if (event.getCode() == KeyCode.LEFT) {	            	
 	            	move(-movementX, 0) ;
 	            	setImage(imgA1) ;
 	            	second = false ;
 	            } // Move backward
-	            else if (event.getCode() == KeyCode.S) {	            	
+	            else if (event.getCode() == KeyCode.DOWN) {	            	
 	            	move(0, movement) ;
 	            	setImage(imgS1) ;
 	            	second = false ;
 	            } // Move right
-	            else if (event.getCode() == KeyCode.D) {	            	
+	            else if (event.getCode() == KeyCode.RIGHT) {	            	
 	            	move(movementX, 0) ;
 	            	setImage(imgD1) ;
 	            	second = false ;
@@ -195,9 +195,9 @@ public class Animal extends Actor {
 	public void act(long now) {
 		// How frog acts when hit boundaries
 		// When the frog hit bottom or top boundary  , it will be reset to starting point
-		if (getY() < 0 || getY() > 734) {
+		if (getY() < 0 || getY() > 800) {
 			setX(300) ;
-			setY(679.8 + movement) ;
+			setY(730 + movement) ;
 		}
 		// When the frog hit left or right boundary , it will be pushed back
 		if (getX() < 0) {
@@ -228,7 +228,7 @@ public class Animal extends Actor {
 			if (carD == 4) {
 				// Reset position of frog to starting point
 				setX(300) ;
-				setY(679.8+movement) ;
+				setY(730+movement) ;
 				// Reset death state of frog
 				carDeath = false ;
 				carD = 0 ;
@@ -271,7 +271,7 @@ public class Animal extends Actor {
 			if (carD == 5) {
 				// Reset position of frog to starting point
 				setX(300) ;
-				setY(679.8+movement) ;
+				setY(730+movement) ;
 				// Reset the death state of frog
 				waterDeath = false ;
 				carD = 0 ;
@@ -332,7 +332,7 @@ public class Animal extends Actor {
 			end++ ;
 			// Reset  position of frog to starting point
 			setX(300) ;
-			setY(679.8+movement) ;
+			setY(730+movement) ;
 		} // Amplify water death
 		else if (getY() < 413) {
 			waterDeath = true ;

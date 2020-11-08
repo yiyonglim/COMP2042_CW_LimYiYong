@@ -1,5 +1,11 @@
 package com.yiyonglim.Main ;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.yiyonglim.Character.Animal;
 import com.yiyonglim.Goal.End;
 import com.yiyonglim.Obstacle.Obstacle;
@@ -90,11 +96,14 @@ public class Main extends Application {
 		background.add(new Obstacle("file:Resources/Truck/truck2Right.png", 0, 540, 1, 200, 200)) ;
 		background.add(new Obstacle("file:Resources/Truck/truck2Right.png", 500, 540, 1, 200, 200)) ;
 		// First row of car (counting from bottom)
+		background.add(new Obstacle("file:Resources/Car/car1Left.png", 150, 704, -1, 50, 50)) ;
+		background.add(new Obstacle("file:Resources/Car/car1Left.png", 500, 704, -1, 50, 50)) ;
+		// Second row of car (counting from bottom)
 		background.add(new Obstacle("file:Resources/Car/car1Left.png", 100, 597, -1, 50, 50)) ;
 		background.add(new Obstacle("file:Resources/Car/car1Left.png", 250, 597, -1, 50, 50)) ;
 		background.add(new Obstacle("file:Resources/Car/car1Left.png", 400, 597, -1, 50, 50)) ;
 		background.add(new Obstacle("file:Resources/Car/car1Left.png", 550, 597, -1, 50, 50)) ;
-		// Second row of car (counting from bottom)
+		// Third row of car (counting from bottom)
 		background.add(new Obstacle("file:Resources/Car/car1Left.png", 500, 490, -5, 50, 50)) ;
 		
 		// Create score board and add to scene
@@ -136,11 +145,72 @@ public class Main extends Application {
             		// Stop scene
             		background.stop() ;
             		// Set pop up window and show message to user that the game has completed
+            		
+            		// Writing highscore to file
+            		int highScore = 0;
+            		
+            		try {
+            	        BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
+            	        String line = reader.readLine();
+            	        while (line != null)                 // read the score file line by line
+            	        {
+            	            try {
+            	                int score = Integer.parseInt(line.trim());   // parse each line as an int
+            	                if (score > highScore)                       // and keep track of the largest
+            	                { 
+            	                    highScore = score; 
+            	                }
+            	            } catch (NumberFormatException e1) {
+            	                // ignore invalid scores
+            	                //System.err.println("ignoring invalid score: " + line);
+            	            }
+            	            line = reader.readLine();
+            	        }
+            	        reader.close();
+
+            	    } catch (IOException ex) {
+            	        System.err.println("ERROR reading scores from file");
+            	    }
+            		
+            	    // Record score to leaderboard.txt
+            		try {
+            	        BufferedWriter output = new BufferedWriter(new FileWriter("leaderboard.txt", true));
+            	        output.newLine();
+            	        output.append("" + animal.getPoints());
+            	        output.close();
+
+            	    } catch (IOException ex1) {
+            	        System.out.printf("ERROR writing score to file: %s\n", ex1);
+            	    }
+            		
+            	    // display the high score
+            		
             		Alert alert = new Alert(AlertType.INFORMATION) ;
-            		alert.setTitle("You Have Won The Game!") ;
-            		alert.setHeaderText("Your High Score: "+animal.getPoints()+"!") ;
-            		alert.setContentText("Highest Possible Score: 800") ;
-            		alert.show() ;
+            		
+            		
+            	    if (animal.getPoints() > highScore) {    
+            	        alert.setTitle("You Have Won The Game!") ;
+                		alert.setHeaderText("Your High Score: "+animal.getPoints()+"!") ;
+                		alert.setContentText("You beat the previous high score " + highScore) ;
+                		alert.show() ;
+            	    } else if (animal.getPoints() == highScore) {
+            	        alert.setTitle("You Have Won The Game!") ;
+                		alert.setHeaderText("Your High Score: "+animal.getPoints()+"!") ;
+                		alert.setContentText("So close! You tied the high score!") ;
+                		alert.show() ;
+            	    } else {
+            	        alert.setTitle("You Have Won The Game!") ;
+                		alert.setHeaderText("Your High Score: "+animal.getPoints()+"!") ;
+                		alert.setContentText("The all time high score was " + highScore) ;
+                		alert.show() ;
+            	    }
+            	
+            	    // when alert window is closed , close the whole program
+            	    alert.setOnCloseRequest(event -> {
+            	    	System.exit(0) ;
+            	    	
+	                });
+            	    
             	}
             }
         } ;

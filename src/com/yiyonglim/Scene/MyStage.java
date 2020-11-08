@@ -19,11 +19,11 @@ public class MyStage extends World {
 	
 	// Setting stages
 	public MyStage() {
-		// Detect if user quit the game , stop music
+		// Detect if user quit game , stop music
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent event){
 				if (event.getCode() == KeyCode.ESCAPE) {	  
-					stopMusic() ;  
+					stopMusic() ;
 				}
 			}
 
