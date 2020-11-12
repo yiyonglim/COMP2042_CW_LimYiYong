@@ -1,107 +1,137 @@
-package com.yiyonglim.Main;
+package com.yiyonglim.Main ;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.BufferedReader ;
+import java.io.File ;
+import java.io.FileReader ;
+import java.io.FileWriter ;
+import java.io.IOException ;
+import java.io.InputStream ;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.TranslateTransition;
-import javafx.application.Application;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.effect.Glow;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import javafx.scene.input.KeyCode;
+import java.nio.file.Files ;
+import java.nio.file.Paths ;
 
-// Handle MainMenu
+import com.yiyonglim.Stage.Stage1;
+
+import javafx.animation.FadeTransition ;
+import javafx.animation.TranslateTransition ;
+
+import javafx.application.Application ;
+
+import javafx.geometry.Pos ;
+
+import javafx.scene.Parent ;
+import javafx.scene.Scene ;
+import javafx.scene.effect.DropShadow ;
+import javafx.scene.effect.GaussianBlur ;
+import javafx.scene.effect.Glow ;
+import javafx.scene.image.Image ;
+import javafx.scene.image.ImageView ;
+import javafx.scene.layout.Pane ;
+import javafx.scene.layout.StackPane ;
+import javafx.scene.layout.VBox ;
+import javafx.scene.media.Media ;
+import javafx.scene.media.MediaPlayer ;
+import javafx.scene.paint.Color ;
+import javafx.scene.shape.Rectangle ;
+import javafx.scene.text.Font ;
+import javafx.scene.text.Text ;
+import javafx.scene.input.KeyCode ;
+
+import javafx.stage.Stage ;
+
+import javafx.util.Duration ;
+
+/**
+ * Main menu
+ * It contains START , HOW TO PLAY , LEADERBOARD , EXIT
+ * @author yiyonglim
+ */
 public class MainMenu extends Application {
-
+		// Initialize media player to play music
+		MediaPlayer mediaPlayer ;
+		// Initialize game menu (Main menu , How to play , Leaderboard)
 	    private GameMenu gameMenu ;
-
+	   
+	    /**
+	     * Start main menu
+	     * @throws IOException If an input or output exception occurred (image)
+	     */
 	    @Override
 	    public void start(Stage primaryStage) throws Exception {
-
+	    	// Play main menu music
+	    	setMusic() ;
+	    	
 	    	// Set main menu interface
 	        Pane root = new Pane();
 	        root.setPrefSize(600, 800);
+	        
+	        // Set up game menu (main menu . how to play , leaderboard)
+	        gameMenu = new GameMenu();
+	        gameMenu.setVisible(false);
 
-	        // Set title
-	        InputStream title = Files.newInputStream(Paths.get("Resources/Font/title.png"));
+	        // Set title's image
+	        InputStream title = Files.newInputStream(Paths.get("Resources/Font/frogger.png"));
 	        Image titleImg = new Image(title);
 	        title.close();
-
-	        // Set title position and size
+	        // Set title's position
 	        ImageView titleView = new ImageView(titleImg);
 	        titleView.setX(30);
 	        titleView.setY(35);
+	        // Set title's size
 	        titleView.setScaleX(1) ;
 	        titleView.setScaleY(1.4) ;
 	        
-	        // Set instruction to start game
+	        // Set instruction to show main menu
 	        InputStream pressEnter = Files.newInputStream(Paths.get("Resources/Font/pressEnter.png"));
 	        Image pressEnterImg = new Image(pressEnter);
 	        pressEnter.close();
-	        
-	        // Set instruction position and size
+	        // Set instruction's position
 	        ImageView pressEnterView = new ImageView(pressEnterImg);
 	        pressEnterView.setX(-25);
 	        pressEnterView.setY(500);
+	        // Set instruction's size
 	        pressEnterView.setScaleX(0.7) ;
 	        pressEnterView.setScaleY(0.7) ;
+	        // Set instruction's visibility
 	        pressEnterView.setVisible(false);
 	        
 	        // Set background image
-	        InputStream bg = Files.newInputStream(Paths.get("Resources/MainMenuBackground/background.gif"));
+	        InputStream bg = Files.newInputStream(Paths.get("Resources/MainMenuBackground/mainMenuBackground.gif"));
 	        Image bgImg = new Image(bg);
 	        bg.close();
-
-	        // Set background image size
+	        // Set background image position
 	        ImageView bgView = new ImageView(bgImg);
+	        bgView.setY(20);
+	        // Set background image size
 	        bgView.setFitWidth(600);
 	        bgView.setFitHeight(800);
-	        bgView.setY(20);
 	        
-	        // Set up game menu
-	        gameMenu = new GameMenu();
-	        gameMenu.setVisible(false);
-	        
-	        // Get all elements and add to scene
+	        // Add to main menu interface
 	        root.getChildren().addAll(bgView,titleView,pressEnterView, gameMenu);
+	        
+	        // Add to scene (main menu)
 	        Scene scene = new Scene(root);
 	        
-	        // When user's mouse enter interface of game , instruction is shown
+	        // When user's mouse enter scene , "PRESS ENTER" instruction is shown 
 	        scene.setOnMouseEntered(event -> {
+	        	// Play main menu music when mouse entered game window
+        		mediaPlayer.play();
+	        	// If gameMenu is shown , hide "PRESS ENTER" instruction
 	        	if (gameMenu.isVisible()) {
 	        		pressEnterView.setVisible(false);
-	        	} else {
+	        	} else { // If gameMenu isn't shown , hide "PRESS ENTER" instruction
 	        		pressEnterView.setVisible(true);
 	        	}
-	        });
+	        }) ;
+	        // When user's mouse exit scene , "PRESS ENTER" instruction is hidden
 	        scene.setOnMouseExited(event -> {
-	        	pressEnterView.setVisible(false);
-	        });
+	        	pressEnterView.setVisible(false) ;
+	        }) ;
 	        
-	        // When user pressed ENTER , show game menu
+	        // Show or hide gameMenu
 	        scene.setOnKeyPressed(event -> {
 	            if (event.getCode() == KeyCode.ENTER) {
+	            	// If gameMenu isn't shown , "PRESS ENTER" to show
 	                if (!gameMenu.isVisible()) {
 	                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
 	                    ft.setFromValue(0);
@@ -110,7 +140,7 @@ public class MainMenu extends Application {
 	                    pressEnterView.setVisible(false);
 	                    ft.play();
 	                }
-	                else {
+	                else { // If gameMenu is shown , "PRESS ENTER" to hide
 	                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
 	                    ft.setFromValue(1);
 	                    ft.setToValue(0);
@@ -120,141 +150,163 @@ public class MainMenu extends Application {
 	            }
 	        });
 	        
-	        // Set up whole menu scene
+	        // Set up Main Menu window
 	        primaryStage.setScene(scene);
+	        primaryStage.setTitle("MAIN MENU");
 	        primaryStage.setResizable(false);
 	        primaryStage.show();
 	    }
 
-	    // Set game menu
+	    /**
+	     * Set up game menu (main menu , how to play , leaderboard)
+	     * @author yylim
+	     */
 	    private class GameMenu extends Parent {
+	    	
+	    	/**
+	    	 * Set up game menu (main menu , how to play , leaderboard)
+	    	 * @throws IOException If an input or output exception of an image occurred
+	    	 */
 	        public GameMenu() throws IOException {
-	        	
 	        	// Main menu
-	            VBox menu0 = new VBox(10);
+	            VBox mainMenu = new VBox(10);
+	            // Set main menu position
+	            mainMenu.setTranslateX(50);
+	            mainMenu.setTranslateY(350);
+	            
 	            // How to play
-	            VBox menu1 = new VBox(10);
+	            VBox howToPlay = new VBox(10);
+	            // Set how to play position
+	            howToPlay.setTranslateX(100);
+	            howToPlay.setTranslateY(200);
+	            
 	            // Leaderboard
-	            VBox menu2 = new VBox(10);
-
-
-	            menu0.setTranslateX(50);
-	            menu0.setTranslateY(350);
-
-	            menu1.setTranslateX(100);
-	            menu1.setTranslateY(200);
+	            VBox leaderboard = new VBox(10);
+	            // Set leaderboard positions
+	            leaderboard.setTranslateX(100);
+	            leaderboard.setTranslateY(200);
 	            
-	            menu2.setTranslateX(100);
-	            menu2.setTranslateY(200);
-	            
+	            // Set transition distance between game menu
 	            final int offset = 400;
-
-	            menu1.setTranslateX(offset);
 	            
-	            // Set function of game menu buttons
-	            // START
+	            // Set transition distance for how to play
+	            howToPlay.setTranslateX(offset) ;
+	            
+	            // Set main menu buttons function
+	            // START button
+	            // Start game
 	            MenuButton btnStart = new MenuButton("START");
 	            btnStart.setOnMouseClicked(event -> {
-	            	FadeTransition ft = new FadeTransition(Duration.seconds(0.5), this);
+	            	// Set transition effect
+	            	FadeTransition ft = new FadeTransition(Duration.seconds(2), this);
+	            	
 	                ft.setFromValue(1);
 	                ft.setToValue(0);
 	                ft.setOnFinished(evt -> setVisible(false));
 	                ft.play();
 	                
-	                Main startgame = new Main() ;
+	                // Stop playing main menu music
+	                mediaPlayer.stop() ;
+	                
+	                // Start game
+	                Stage1 stage1 = new Stage1() ;
 	    			try {
-						startgame.start(new Stage()) ;
+	    				stage1.start(new Stage()) ;
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 	            });
 
-	            // HOW TO PLAY
-	            // Show control and scoring system
+	            // HOW TO PLAY button
+	            // Show controls and scoring system
 	            MenuButton btnHowToPlay = new MenuButton("HOW TO PLAY");
 	            btnHowToPlay.setOnMouseClicked(event -> {
-	                getChildren().add(menu1);
-
-	                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
-	                tt.setToX(menu0.getTranslateX() - offset);
-
-	                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu1);
-	                tt1.setToX(menu0.getTranslateX());
-
+	                getChildren().add(howToPlay);
+	                // Set transition effect (main menu -> how to play)
+	                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), mainMenu);
+	                tt.setToX(mainMenu.getTranslateX() - offset);
+	                
+	                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), howToPlay);
+	                tt1.setToX(mainMenu.getTranslateX());
+	                
 	                tt.play();
 	                tt1.play();
-
+	                
 	                tt.setOnFinished(evt -> {
-	                    getChildren().remove(menu0);
+	                    getChildren().remove(mainMenu);
 	                });
 	            });
 	            
-	            // LEADERBOARD
+	            // LEADERBOARD button
 	            // Show top 10 high score
 	            MenuButton btnLeaderboard = new MenuButton("LEADERBOARD");
 	            btnLeaderboard.setOnMouseClicked(event -> {
-	                getChildren().add(menu2);
-
-	                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu0);
-	                tt.setToX(menu0.getTranslateX() - offset);
-
-	                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu2);
-	                tt1.setToX(menu0.getTranslateX());
-
+	                getChildren().add(leaderboard);
+	                
+	                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), mainMenu);
+	                tt.setToX(mainMenu.getTranslateX() - offset);
+	                
+	                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), leaderboard);
+	                tt1.setToX(mainMenu.getTranslateX());
+	                
 	                tt.play();
 	                tt1.play();
-
+	                
 	                tt.setOnFinished(evt -> {
-	                    getChildren().remove(menu0);
+	                    getChildren().remove(mainMenu);
 	                });
 	            });
 
-	            // EXIT
+	            // EXIT button
+	            // Exit game
 	            MenuButton btnExit = new MenuButton("EXIT");
 	            btnExit.setOnMouseClicked(event -> {
 	                System.exit(0);
 	            });
 
-	            // BACK (How to play --> Main menu)
+	            // BACK button in how to play
+	            // How to play -> main menu
 	            MenuButton btnBack = new MenuButton("BACK");
 	            btnBack.setOnMouseClicked(event -> {
-	                getChildren().add(menu0);
+	                getChildren().add(mainMenu);
 
-	                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu1);
-	                tt.setToX(menu1.getTranslateX() + offset);
+	                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), howToPlay);
+	                tt.setToX(howToPlay.getTranslateX() + offset);
 
-	                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-	                tt1.setToX(menu1.getTranslateX());
+	                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), mainMenu);
+	                tt1.setToX(howToPlay.getTranslateX());
 
 	                tt.play();
 	                tt1.play();
 
 	                tt.setOnFinished(evt -> {
-	                    getChildren().remove(menu1);
+	                    getChildren().remove(howToPlay);
 	                });
 	            });
-	            
-	            // BACK (Leaderboard --> Main menu)
+	           
+	            // BACK button in leaderboard
+	            // Leaderboard -> main menu
 	            MenuButton btnBack0 = new MenuButton("BACK");
 	            btnBack0.setTranslateY(-120);
 	            btnBack0.setOnMouseClicked(event -> {
-	                getChildren().add(menu0);
+	                getChildren().add(mainMenu);
 
-	                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), menu2);
-	                tt.setToX(menu2.getTranslateX() + offset);
+	                TranslateTransition tt = new TranslateTransition(Duration.seconds(0.25), leaderboard);
+	                tt.setToX(leaderboard.getTranslateX() + offset);
 
-	                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), menu0);
-	                tt1.setToX(menu2.getTranslateX());
+	                TranslateTransition tt1 = new TranslateTransition(Duration.seconds(0.5), mainMenu);
+	                tt1.setToX(leaderboard.getTranslateX());
 
 	                tt.play();
 	                tt1.play();
 
 	                tt.setOnFinished(evt -> {
-	                    getChildren().remove(menu2);
+	                    getChildren().remove(leaderboard);
 	                });
 	            });
 	            
-	            // How To Play Scene
+	            // How To Play
+	            // Show controls and scoring system
 	            InputStream movement = Files.newInputStream(Paths.get("Resources/HowToPlay/movement.gif"));
 		        Image movementImg = new Image(movement);
 		        movement.close();
@@ -282,7 +334,7 @@ public class MainMenu extends Application {
 	            plus10View.setScaleX(1.75);
 	            plus10View.setScaleY(1.75);
 	            
-	            InputStream goal = Files.newInputStream(Paths.get("Resources/Goal/End.png"));
+	            InputStream goal = Files.newInputStream(Paths.get("Resources/Goal/End1.png"));
 		        Image goalImg = new Image(goal);
 		        goal.close();
 	            ImageView goalView = new ImageView(goalImg) ;
@@ -327,10 +379,12 @@ public class MainMenu extends Application {
 	            xView.setScaleX(0.4);
 	            xView.setScaleY(0.4);
 	            
+	            // Create leaderboard.txt which store previous and new high score
 	            try {
-	                File myObj = new File("leaderboard.txt");
-	                if (myObj.createNewFile()) {
-	                  System.out.println("File created: " + myObj.getName());
+	                File txt = new File("leaderboard.txt");
+	                
+	                if (txt.createNewFile()) {
+	                  System.out.println("File created: " + txt.getName());
 	                  try {
 	  	                FileWriter myWriter = new FileWriter("leaderboard.txt");
 	  	                myWriter.write("800\n200\n300\n400\n500\n250\n150\n580\n350\n600");
@@ -338,28 +392,26 @@ public class MainMenu extends Application {
 	  	              } catch (IOException e) {
 	  	                System.out.println("An error occurred.");
 	  	                e.printStackTrace();
-	  	              }    
+	  	              }
 	                } else {
 	                  System.out.println("File already exists.");
 	                }
-	              } catch (IOException e) {
+	            } catch (IOException e) {
 	                System.out.println("An error occurred.");
 	                e.printStackTrace();
-	              }
+	            }
 	                    
-	            
-	            // Leaderboard scene
+	            // Get scores from leaderboard.txt and store them in an array
 	            int[] array = new int[100];
         		int n = 0 ;
         		
-        		// Get scores from score.txt and sort them in descending order
         		try {
         	        BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
         	        String line = reader.readLine();
-        	        while (line != null)                 // read the score file line by line
+        	        while (line != null)
         	        {
         	            try {
-        	                int score = Integer.parseInt(line.trim());   // parse each line as an int
+        	                int score = Integer.parseInt(line.trim());
         	                array[n] = score ;
         	                n++ ;
         	            } catch (NumberFormatException e1) {
@@ -373,18 +425,19 @@ public class MainMenu extends Application {
         	        System.err.println("ERROR reading scores from file");
         	    }
 	            
+        		// Sort the array in descending order
         		for (int i = 1; i < n; i++) {
         	        int current = array[i];
         	        int j = i - 1;
+        	        
         	        while(j >= 0 && current < array[j]) {
         	            array[j+1] = array[j];
         	            j--;
         	        }
-        	        // at this point we've exited, so j is either -1
-        	        // or it's at the first element where current >= a[j]
         	        array[j+1] = current;
         	    }
         		
+        		// Obtain top 10 high score from the array and put them into leaderboard
         		int highScore1 = array[n-1] ;
         		int highScore2 = array[n-2] ;
         		int highScore3 = array[n-3] ;
@@ -396,36 +449,47 @@ public class MainMenu extends Application {
         		int highScore9 = array[n-9] ;
         		int highScore10 = array[n-10] ;
         		
-	            ShowButton high1 = new ShowButton("1st : " + highScore1);
-	            ShowButton high2 = new ShowButton("2nd : " + highScore2);
-	            ShowButton high3 = new ShowButton("3rd : " + highScore3);
-	            ShowButton high4 = new ShowButton("4th : " + highScore4);
-	            ShowButton high5 = new ShowButton("5th : " + highScore5);
-	            ShowButton high6 = new ShowButton("6th : " + highScore6);
-	            ShowButton high7 = new ShowButton("7th : " + highScore7);
-	            ShowButton high8 = new ShowButton("8th : " + highScore8);
-	            ShowButton high9 = new ShowButton("9th : " + highScore9);
-	            ShowButton high10 = new ShowButton("10th : " + highScore10);
+	            HighScore high1 = new HighScore("1st : " + highScore1);
+	            HighScore high2 = new HighScore("2nd : " + highScore2);
+	            HighScore high3 = new HighScore("3rd : " + highScore3);
+	            HighScore high4 = new HighScore("4th : " + highScore4);
+	            HighScore high5 = new HighScore("5th : " + highScore5);
+	            HighScore high6 = new HighScore("6th : " + highScore6);
+	            HighScore high7 = new HighScore("7th : " + highScore7);
+	            HighScore high8 = new HighScore("8th : " + highScore8);
+	            HighScore high9 = new HighScore("9th : " + highScore9);
+	            HighScore high10 = new HighScore("10th : " + highScore10);
 	            
-	            // Add buttons to game menu accordingly
-	            menu0.getChildren().addAll(btnStart, btnHowToPlay, btnLeaderboard , btnExit);
-	            menu1.getChildren().addAll(btnBack,movementView,frogjumpView,plus10View,goalView,plus50View,deathImgView,minus50View,xView);
-	            menu2.getChildren().addAll(btnBack0,high1,high2,high3,high4,high5,high6,high7,high8,high9,high10) ;
+	            // Add buttons to main menu
+	            mainMenu.getChildren().addAll(btnStart, btnHowToPlay, btnLeaderboard , btnExit);
+	            
+	            // Add button , images and gif into how to play
+	            howToPlay.getChildren().addAll(btnBack,movementView,frogjumpView,plus10View,goalView,plus50View,deathImgView,minus50View,xView);
+	            
+	            // Add button and high score into leaderboard
+	            leaderboard.getChildren().addAll(btnBack0,high1,high2,high3,high4,high5,high6,high7,high8,high9,high10) ;
 
-	            // Set background fill when opening game menu
+	            // Set background fill when opening main menu game menu
 	            Rectangle bg = new Rectangle(600, 800);
 	            bg.setFill(Color.GREY);
 	            bg.setOpacity(0.8);
 
-	            // Add to scene
-	            getChildren().addAll(bg, menu0);
+	            // Add them to scene
+	            getChildren().addAll(bg, mainMenu);
 	        }
 	    }
 
-	    // Set style and effect
+	    /**
+	     * Set effect and style for START , HOW TO PLAY , LEADERBOARD , EXIT and BACK button
+	     * @author yiyonglim
+	     */
 	    private static class MenuButton extends StackPane {
-	        private Text text;
-
+	        private Text text ;
+	        
+	        /**
+	         * Set effect and style
+	         * @param name Text shown on button
+	         */
 	        public MenuButton(String name) {
 	            text = new Text(name);
 	            text.setFont(Font.loadFont("file:Resources/Font/BACKTO1982.ttf", 40));
@@ -441,6 +505,7 @@ public class MainMenu extends Application {
 	            getChildren().addAll(bg, text);
 
 	            setOnMouseEntered(event -> {
+	            	playMusicButton() ;
 	                bg.setTranslateX(10);
 	                text.setTranslateX(10);
 	                bg.setFill(Color.WHITE);
@@ -463,10 +528,18 @@ public class MainMenu extends Application {
 	        
 	    }
 
-	    private static class ShowButton extends StackPane {
+	    /**
+	     * Set effect and style for top 10 high score in leaderboard
+	     * @author yiyonglim
+	     */
+	    private static class HighScore extends StackPane {
 	        private Text text;
 
-	        public ShowButton(String name) {
+	        /**
+	         * Set effect and style
+	         * @param name
+	         */
+	        public HighScore(String name) {
 	        	setTranslateY(-120) ;
 	            text = new Text(name);
 	            text.setFont(Font.loadFont("file:Resources/Font/INVASION2000.ttf", 50));
@@ -497,7 +570,33 @@ public class MainMenu extends Application {
 	        }
 	        
 	    }
+	 
+    	/**
+    	 * Set main menu music
+    	 */
+    	public void setMusic() {
+        	String musicFile = "Resources/MainMenuMusicAndSoundEffect/MainMenuMusic.mp3";   
+        	Media sound = new Media(new File(musicFile).toURI().toString()) ;
+        	mediaPlayer = new MediaPlayer(sound) ;
+        	mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE) ;
+    	}
+    	
+	    /**
+	     * Play sound effect when mouse passes buttons
+	     */
+	    public static void playMusicButton() {
+			String musicFile = "Resources/MainMenuMusicAndSoundEffect/ButtonSoundEffect.wav";   
+			Media sound = new Media(new File(musicFile).toURI().toString()) ;
+			MediaPlayer mediaPlayer = new MediaPlayer(sound) ;
+			mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE) ;
+			mediaPlayer.setCycleCount(1);
+			mediaPlayer.play() ;
+		}
 	    
+	    /**
+	     * Start javafx program
+	     * @param args It is not fixed and user can use any name in place of it
+	     */
 	    public static void main(String[] args) {
 	        launch(args);
 	    }

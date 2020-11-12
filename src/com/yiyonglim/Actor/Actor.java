@@ -4,37 +4,43 @@ import javafx.scene.image.ImageView ;
 
 import java.util.ArrayList ;
 
-import com.yiyonglim.Scene.World;
+import com.yiyonglim.World.World;
 
-// Handle actors
-// Actors --> all objects which involved in game
+/**
+ * Handle all actors
+ * Actor, User control character(frog), object(truck , car , log , turtle , wetturtle) , boundary in game
+ * @author yiyonglim
+ */
 public abstract class Actor extends ImageView {
-
-	// Set movement on x-axis and y-axis
+	/**
+	 * Set actors' movement
+	 * @param  dx Actor's X coordinate
+	 * @param  dy Actor's Y coordinate
+	 */
     public void move(double dx , double dy) {
         setX(getX() + dx) ;
         setY(getY() + dy) ;
     }
-
-    // Return coordinate system of World from its Parent (Pane)
+    
+    /**
+     * Return World coordinate system for tracking actors
+     * @return World coordinate system from its Parent (Pane)
+     */
     public World getWorld() {
         return (World) getParent() ;
     }
-
-    // Return width of World
-    public double getWidth() {
-        return this.getBoundsInLocal().getWidth() ;
-    }
-
-    // Return height of World
-    public double getHeight() {
-        return this.getBoundsInLocal().getHeight() ;
-    }
-
+    
+    /**
+     * Record all intersection between frog and other actors to react accordingly
+     * @param <A> java.util.List
+     * @param cls Class of objects to look for (passing 'null' will find all objects)
+     * @return array list of classes
+     */
     // Return list of collisions between actors and boundary
     public <A extends Actor> java.util.List<A> getIntersectingObjects(java.lang.Class<A> cls) {
-    	// Create array to store collisions history
+    	
         ArrayList<A> someArray = new ArrayList<A>() ;
+        
         for (A actor : getWorld().getObjects(cls)) {
             if (actor != this && actor.intersects(this.getBoundsInLocal())) {
                 someArray.add(actor) ;
@@ -42,8 +48,10 @@ public abstract class Actor extends ImageView {
         }
         return someArray ;
     }
-
-    // Create abstract method to be implemented later on child class
+    
+    /**
+     * Set actors into action
+     * @param now The timestamp of the current frame given in nanoseconds. This value will be the same for all AnimationTimers called during one frame.
+     */
     public abstract void act(long now) ;
-
 }

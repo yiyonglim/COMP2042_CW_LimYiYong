@@ -1,310 +1,284 @@
 package com.yiyonglim.Character ;
 
-import java.util.ArrayList ;
-
 import com.yiyonglim.Actor.Actor;
-import com.yiyonglim.Goal.End;
-import com.yiyonglim.Obstacle.Obstacle;
-import com.yiyonglim.Platform.Log;
-import com.yiyonglim.Platform.Turtle;
-import com.yiyonglim.Platform.WetTurtle;
+import com.yiyonglim.Goal.End ;
+import com.yiyonglim.Obstacle.Obstacle ;
+import com.yiyonglim.Platform.Log ;
+import com.yiyonglim.Platform.Turtle ;
+import com.yiyonglim.Platform.WetTurtle ;
 
 import javafx.event.EventHandler ;
 
 import javafx.scene.image.Image ;
 import javafx.scene.input.KeyCode ;
 import javafx.scene.input.KeyEvent ;
-import javafx.stage.Stage;
 
-// Handle frog
-// Frog --> user control character
+/**
+ * Handle frog
+ * Frog , user control character
+ * @author yiyonglim
+ */
 public class Animal extends Actor {
-	// Initialize image of frog
-	Image imgW1 ;
-	Image imgA1 ;
-	Image imgS1 ;
-	Image imgD1 ;
-	Image imgW2 ;
-	Image imgA2 ;
-	Image imgS2 ;
-	Image imgD2 ;
+	// Initialize frog's moving image
+	Image frogUp1 ;
+	Image frogLeft1 ;
+	Image frogDown1 ;
+	Image frogRight1 ;
+	Image frogUp2 ;
+	Image frogLeft2 ;
+	Image frogDown2 ;
+	Image frogRight2 ;
 	// Initialize starting score
-	int points = 0 ;
-	// Initialize number of goals completed
-	int end = 0 ;
-	// Initialize frog death by car animation
-	int carD = 0 ;
-	// Set frog size (square)
-	int imgSize = 40 ;
-	// Set jump distance of frog (forward , backward)
-	double movement = 13.3333333*2 ;
-	// Set jump distance of frog (left , right)
+	public static int points = 0 ;
+	// Initialize number of stages completed
+	public static int end = 0 ;
+	// Initialize frog death animation
+	int deathAnimation = 0 ;
+	// Set frog's size
+	int frogSize = 40 ;
+	// Set frog's vertical jump distance
+	double movementY = 13.3333333*2 ;
+	// Set frog's horizontal jump distance
 	double movementX = 10.666666*2 ;
-	// Initialize limit line for scoring , score will be added when passing it 
-	double w = 800 ;
-	// Initialize jumping state of frog , two actions are done when frog jumps
+	// Initialize score line , score will be added after passing it 
+	double scoreLine = 800 ;
+	// Initialize frog's jumping state
 	// true -> fold legs , false -> unfold legs
-	private boolean second = false ;
-	// Initialize movement state of frog
+	private boolean jump = false ;
+	// Initialize frog's movement state
 	// true -> stationary , false -> moving	
 	boolean noMove = false ;
-	// Initialize death state of frog (death by having collision with truck or car)
-	// true -> death by car , false -> not death by car
-	boolean carDeath = false ;
-	// Initialize death state of frog (death by falling into the water)
+	// Initialize frog's death reason
+	// true -> death by vehicle , false -> not death by vehicle
+	// Having collision with car or truck
+	boolean vehicleDeath = false ;
 	// true -> death by water , false -> not death by water
+	// Fall into water
 	boolean waterDeath = false ;
-	// Either carDeath or waterDeath can be true at the same time
-	// Initialize state of score
-	// true -> score is changed , false -> score not being changed
-	boolean changeScore = false ;
+	// Either vehicleDeath or waterDeath can be true at the same time
 	
-	// Track goals , save all the goals' coordinates into array
-	ArrayList<End> inter = new ArrayList<End>() ;
-	
-	// Create user control character
+	/**
+	 * Create user control character , frog
+	 * @param imageLink Frog's image
+	 */
 	public Animal(String imageLink) {
 		// Set frog image
-		setImage(new Image(imageLink, imgSize, imgSize, true, true)) ;
-		// Set starting point of frog
+		setImage(new Image(imageLink, frogSize, frogSize, true, true)) ;
+		// Set frog's starting point
 		setX(300) ;
-		setY(730+movement) ;
-		// Images of frog moving
-		imgW1 = new Image("file:Resources/Frog/froggerUp.png", imgSize, imgSize, true, true) ;
-		imgA1 = new Image("file:Resources/Frog/froggerLeft.png", imgSize, imgSize, true, true) ;
-		imgS1 = new Image("file:Resources/Frog/froggerDown.png", imgSize, imgSize, true, true) ;
-		imgD1 = new Image("file:Resources/Frog/froggerRight.png", imgSize, imgSize, true, true) ;
-		imgW2 = new Image("file:Resources/Frog/froggerUpJump.png", imgSize, imgSize, true, true) ;
-		imgA2 = new Image("file:Resources/Frog/froggerLeftJump.png", imgSize, imgSize, true, true) ;
-		imgS2 = new Image("file:Resources/Frog/froggerDownJump.png", imgSize, imgSize, true, true) ;
-		imgD2 = new Image("file:Resources/Frog/froggerRightJump.png", imgSize, imgSize, true, true) ;
-		
-		// Detect keys pressed by user and react accordingly
+		setY(730 + movementY) ;
+		// Initialize frog's moving image
+		frogUp1 = new Image("file:Resources/Frog/frogUp1.png", frogSize, frogSize, true, true) ;
+		frogLeft1 = new Image("file:Resources/Frog/frogLeft1.png", frogSize, frogSize, true, true) ;
+		frogDown1 = new Image("file:Resources/Frog/frogDown1.png", frogSize, frogSize, true, true) ;
+		frogRight1 = new Image("file:Resources/Frog/frogRight1.png", frogSize, frogSize, true, true) ;
+		frogUp2 = new Image("file:Resources/Frog/frogUp2.png", frogSize, frogSize, true, true) ;
+		frogLeft2 = new Image("file:Resources/Frog/frogLeft2.png", frogSize, frogSize, true, true) ;
+		frogDown2 = new Image("file:Resources/Frog/frogDown2.png", frogSize, frogSize, true, true) ;
+		frogRight2 = new Image("file:Resources/Frog/frogRight2.png", frogSize, frogSize, true, true) ;
+		// Frog's movement
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
-			// How pressed key is handled
+			// How key pressed is handle
 			public void handle(KeyEvent event) {
-				// Exit game
-				if (event.getCode() == KeyCode.ESCAPE) {	  
-					Stage stage = (Stage) getScene().getWindow();
-					stage.close();
-
-	            }
-				// Frog movement
 				// Check current movement state of frog (stationary or moving)
 				if (noMove) {
 					
 				}
 				else {
-				// Check which key is pressed and response respectively
-				// Set jumping state of frog (extend or fold)
-				if (second) { // Move upward
-					if (event.getCode() == KeyCode.UP) {	  
-		                move(0, -movement) ;
-		                // Change state of score
-		                changeScore = false ;
-		                setImage(imgW1) ;
-		                second = false ;
-		            } // Move left
+					// Check frog's jumping state
+					if (jump) {
+						// Check which key is pressed and response respectively
+						// Move up when press ARROW UP
+						if (event.getCode() == KeyCode.UP) {	
+							// Move frog
+			                move(0, -movementY) ;
+			                // Set frog's moving image
+			                setImage(frogUp1) ;
+			                // Set frog's jumping state
+			                jump = false ;
+			            } // Move left when press ARROW LEFT
+			            else if (event.getCode() == KeyCode.LEFT) {	            	
+			            	 // Move frog 
+			            	 move(-movementX, 0) ;
+			            	 setImage(frogLeft1) ;
+			            	 jump = false ;
+			            } // Move down when press ARROW DOWN
+			            else if (event.getCode() == KeyCode.DOWN) {	            	
+			            	 move(0, movementY) ;
+			            	 setImage(frogDown1) ;
+			            	 jump = false ;
+			            } // Move right when press ARROW RIGHT
+			            else if (event.getCode() == KeyCode.RIGHT) {	            	
+			            	 move(movementX, 0) ;
+			            	 setImage(frogRight1) ;
+			            	 jump = false ;
+			            }
+					}
+					else if (event.getCode() == KeyCode.UP) {	            	
+		                move(0, -movementY) ;
+		                setImage(frogUp2) ;
+		                jump = true ;
+		            }
 		            else if (event.getCode() == KeyCode.LEFT) {	            	
 		            	 move(-movementX, 0) ;
-		            	 setImage(imgA1) ;
-		            	 second = false ;
-		            } // Move backward
+		            	 setImage(frogLeft2) ;
+		            	 jump = true ;
+		            }
 		            else if (event.getCode() == KeyCode.DOWN) {	            	
-		            	 move(0, movement) ;
-		            	 setImage(imgS1) ;
-		            	 second = false ;
-		            } // Move right
+		            	 move(0, movementY) ;
+		            	 setImage(frogDown2) ;
+		            	 jump = true ;
+		            }
 		            else if (event.getCode() == KeyCode.RIGHT) {	            	
 		            	 move(movementX, 0) ;
-		            	 setImage(imgD1) ;
-		            	 second = false ;
+		            	 setImage(frogRight2) ;
+		            	 jump = true ;
 		            }
-				} // Move upward
-				else if (event.getCode() == KeyCode.UP) {	            	
-	                move(0, -movement) ;
-	                setImage(imgW2) ;
-	                second = true ;
-	            } // Move Left
-	            else if (event.getCode() == KeyCode.LEFT) {	            	
-	            	 move(-movementX, 0) ;
-	            	 setImage(imgA2) ;
-	            	 second = true ;
-	            } // Move backward
-	            else if (event.getCode() == KeyCode.DOWN) {	            	
-	            	 move(0, movement) ;
-	            	 setImage(imgS2) ;
-	            	 second = true ;
-	            } // Move right
-	            else if (event.getCode() == KeyCode.RIGHT) {	            	
-	            	 move(movementX, 0) ;
-	            	 setImage(imgD2) ;
-	            	 second = true ;
-	            }
 				}
 			}
-		}) ;	
-		
-		// Frog movement when user release the key (W , A , S , D)
+		}) ;
 		setOnKeyReleased(new EventHandler<KeyEvent>() {
-			// How released key is handled
 			public void handle(KeyEvent event) {
-				// Check current movement state of frog (stationary or moving)
 				if (noMove) {
 					
 				}
 				else {
-				// Check which key is released and response respectively
-				// Set jumping state of frog (extend or fold)
-				// Move upward
-				if (event.getCode() == KeyCode.UP) {
-					// Check limit line for scoring , score will be added when passing it
-					if (getY() < w) {
-						w = getY() ;
-						points += 10 ;
-						// Change state of score
-						changeScore = true ;
-					}
-	                	move(0, -movement) ;
-	                	setImage(imgW1) ;
-	                	second = false ;
-	            } // Move right
-	            else if (event.getCode() == KeyCode.LEFT) {	            	
-	            	move(-movementX, 0) ;
-	            	setImage(imgA1) ;
-	            	second = false ;
-	            } // Move backward
-	            else if (event.getCode() == KeyCode.DOWN) {	            	
-	            	move(0, movement) ;
-	            	setImage(imgS1) ;
-	            	second = false ;
-	            } // Move right
-	            else if (event.getCode() == KeyCode.RIGHT) {	            	
-	            	move(movementX, 0) ;
-	            	setImage(imgD1) ;
-	            	second = false ;
-	            }
+					if (event.getCode() == KeyCode.UP) {
+						// Check if frog passed score line
+						if (getY() < scoreLine) {
+							scoreLine = getY() ;
+							points += 10 ;
+						}
+		                	move(0, -movementY) ;
+		                	setImage(frogUp1) ;
+		                	jump = false ;
+		            }
+		            else if (event.getCode() == KeyCode.LEFT) {	            	
+		            	move(-movementX, 0) ;
+		            	setImage(frogLeft1) ;
+		            	jump = false ;
+		            }
+		            else if (event.getCode() == KeyCode.DOWN) {	            	
+		            	move(0, movementY) ;
+		            	setImage(frogDown1) ;
+		            	jump = false ;
+		            }
+		            else if (event.getCode() == KeyCode.RIGHT) {	            	
+		            	move(movementX, 0) ;
+		            	setImage(frogRight1) ;
+		            	jump = false ;
+		            }
 				}
 			}
-			
 		});
 	}
 	
+	/**
+	 * Set frog into action
+	 */
 	@Override
-	// How frog acts in game
 	public void act(long now) {
-		// How frog acts when hit boundaries
-		// When the frog hit bottom or top boundary  , it will be reset to starting point
+		// When frog hit bottom or top boundary , it will be reset to starting point
 		if (getY() < 0 || getY() > 800) {
 			setX(300) ;
-			setY(730 + movement) ;
+			setY(730 + movementY) ;
 		}
-		// When the frog hit left or right boundary , it will be pushed back
+		// When frog hit left or right boundary , it will be pushed back
 		if (getX() < 0) {
-			move(movement*2, 0) ;
+			move(movementY*2, 0) ;
 		}
 		else if(getX() > 570) {
-			move(-movement*2, 0) ;
+			move(-movementY*2, 0) ;
 		}
-		
-		// How frog acts when death by car
-		if (carDeath) {
-			// Set movement state of frog to stationary
+		// When frog death by vehicle
+		if (vehicleDeath) {
+			// Set frog's movement state
 			noMove = true ;
-			// Show death animation
-			// carD is used to mimic death animation frame by frame
+			// Show frog's death animation
 			if ((now)% 11 == 0) {
-				carD++ ;
+				deathAnimation++ ;
 			}
-			if (carD == 1) {
-				setImage(new Image("file:Resources/Death/cardeath1.png", imgSize, imgSize, true, true)) ;
+			if (deathAnimation == 1) {
+				setImage(new Image("file:Resources/Death/vehicleDeath1.png", frogSize, frogSize, true, true)) ;
 			}
-			if (carD == 2) {
-				setImage(new Image("file:Resources/Death/cardeath2.png", imgSize, imgSize, true, true)) ;
+			if (deathAnimation == 2) {
+				setImage(new Image("file:Resources/Death/vehicleDeath2.png", frogSize, frogSize, true, true)) ;
 			}
-			if (carD == 3) {
-				setImage(new Image("file:Resources/Death/cardeath3.png", imgSize, imgSize, true, true)) ;
+			if (deathAnimation == 3) {
+				setImage(new Image("file:Resources/Death/vehicleDeath3.png", frogSize, frogSize, true, true)) ;
 			}
-			if (carD == 4) {
-				// Reset position of frog to starting point
+			if (deathAnimation == 4) {
+				// Reset frog's position to starting point
 				setX(300) ;
-				setY(730+movement) ;
-				// Reset death state of frog
-				carDeath = false ;
-				carD = 0 ;
-				// Reset image of frog (dead -> alive)
-				setImage(new Image("file:Resources/Frog/froggerUp.png", imgSize, imgSize, true, true)) ;
-				// Reset movement state of frog
+				setY(730+movementY) ;
+				// Reset frog's death state
+				vehicleDeath = false ;
+				// Reset frog's death animation
+				deathAnimation = 0 ;
+				// Reset frog's image (dead -> alive)
+				setImage(new Image("file:Resources/Frog/frogUp1.png", frogSize, frogSize, true, true)) ;
+				// Reset frog's movement state
 				noMove = false ;
-				// Deduction of score
-				// 50 score for one death , if the score isnt enough to be deducted , deduction is denied
+				// 50 score will be deducted if died, if score isn't enough to be deducted , deduction is denied
 				if (points > 50) {
 					points -= 50 ;
-					// Change state of score
-					changeScore = true ;
 				}
 			}
-			
 		}
-		
-		// How frog acts when death by water
+		// When frog death by water
+		// Implementation same as above
 		if (waterDeath) {
-			// Set movement state of frog to stationary
+			
 			noMove = true ;
-			// Show death animation
-			// carD is used to mimic death animation frame by frame
+			
 			if ((now)% 11 == 0) {
-				carD++;
+				deathAnimation++;
 			}
-			if (carD == 1) {
-				setImage(new Image("file:Resources/Death/waterdeath1.png", imgSize,imgSize , true, true)) ;
+			if (deathAnimation == 1) {
+				setImage(new Image("file:Resources/Death/waterdeath1.png", frogSize,frogSize , true, true)) ;
 			}
-			if (carD == 2) {
-				setImage(new Image("file:Resources/Death/waterdeath2.png", imgSize,imgSize , true, true)) ;
+			if (deathAnimation == 2) {
+				setImage(new Image("file:Resources/Death/waterdeath2.png", frogSize,frogSize , true, true)) ;
 			}
-			if (carD == 3) {
-				setImage(new Image("file:Resources/Death/waterdeath3.png", imgSize,imgSize , true, true)) ;
+			if (deathAnimation == 3) {
+				setImage(new Image("file:Resources/Death/waterdeath3.png", frogSize,frogSize , true, true)) ;
 			}
-			if (carD == 4) {
-				setImage(new Image("file:Resources/Death/waterdeath4.png", imgSize,imgSize , true, true)) ;
+			if (deathAnimation == 4) {
+				setImage(new Image("file:Resources/Death/waterdeath4.png", frogSize,frogSize , true, true)) ;
 			}
-			if (carD == 5) {
-				// Reset position of frog to starting point
+			if (deathAnimation == 5) {
+				
 				setX(300) ;
-				setY(730+movement) ;
-				// Reset the death state of frog
+				setY(730+movementY) ;
+
 				waterDeath = false ;
-				carD = 0 ;
-				// Reset the image of the frog (dead -> alive)
-				setImage(new Image("file:Resources/Frog/froggerUp.png", imgSize, imgSize, true, true)) ;
-				// Reset movement state of the frog
+				
+				deathAnimation = 0 ;
+				
+				setImage(new Image("file:Resources/Frog/frogUp1.png", frogSize, frogSize, true, true)) ;
+				
 				noMove = false ;
-				// Deduction of score
-				// 50 score for one death , if the score isnt enough to be deducted , deduction is denied
+				
 				if (points>50) {
 					points-=50 ;
-					// Change state of score
-					changeScore = true ;
 				}
 			}
-			
 		}
-		
-		// If frog had collision with obstacle (car , truck) , it will be dead
+		// If frog had collision with vehicle(car , truck) , it will die
 		if (getIntersectingObjects(Obstacle.class).size() >= 1) {
-			carDeath = true ;
+			vehicleDeath = true ;
 		}
-		// If frog had collision with platform (log , turtle , wet turtle)
+		// If frog step on platform(log , turtle , wet turtle) , stay on and move with it
 		// When frog step on log , stay on and move with it
 		if (getIntersectingObjects(Log.class).size() >= 1 && !noMove) {
 			if(getIntersectingObjects(Log.class).get(0).getLeft())
 				move(-2,0) ;
 			else
 				move (.75,0) ;
-		} // When  frog step on turtle , stay on and move with it
+		} // When frog step on turtle , stay on and move with it
 		else if (getIntersectingObjects(Turtle.class).size() >= 1 && !noMove) {
 			move(-1,0) ;
-		} // When frog step on wet turtle , stay on and move with it when it float , fall into water (death) when it sink
+		} // When frog step on wet turtle , stay on and move with it when it float , fall into water when it sink
 		else if (getIntersectingObjects(WetTurtle.class).size() >= 1) {
 			if (getIntersectingObjects(WetTurtle.class).get(0).isSunk()) {
 				waterDeath = true ;
@@ -313,48 +287,20 @@ public class Animal extends Actor {
 			}
 		} // When frog reach goal
 		else if (getIntersectingObjects(End.class).size() >= 1) {
-			// Save all goals' position in array
-			inter = (ArrayList<End>) getIntersectingObjects(End.class) ;
-			// While entering completed goal again , no score will be awarded
-			if (getIntersectingObjects(End.class).get(0).isActivated()) {
-				end-- ;
-				points -= 60 ;
-			}
-			// Adding score for completing a goal
+			// Add score for completing a goal
 			points += 50 ;
-			// Change state of score
-			changeScore = true ;
-			// Reset the limit line for scoring
-			w = 800 ;
+			// Reset the score line
+			scoreLine = 800 ;
 			// Set goal image (completed)
 			getIntersectingObjects(End.class).get(0).setEnd() ;
-			// Increase number of goal completed
-			end++ ;
+			// Increase number of stages completed
+			end ++ ;
 			// Reset  position of frog to starting point
 			setX(300) ;
-			setY(730+movement) ;
+			setY(730+movementY) ;
 		} // Amplify water death
 		else if (getY() < 413) {
 			waterDeath = true ;
 		}
-	}
-	
-	// Return number of goals to be completed to end the game
-	public boolean getStop() {
-		return end == 5 ;
-	}
-	
-	// Return score
-	public int getPoints() {
-		return points ;
-	}
-	
-	// Return and reset state of score
-	public boolean changeScore() {
-		if (changeScore) {
-			changeScore = false ;
-			return true ;
-		}
-		return false ;
 	}
 }
