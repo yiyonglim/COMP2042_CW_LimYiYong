@@ -31,10 +31,10 @@ public class WetTurtle extends Actor{
 	 */
 	public WetTurtle(int xpos, int ypos, int s, int w, int h) {
 		// Set wet turtle's image
-		turtle1 = new Image("file:Resources/Turtle/TurtleAnimation1.png", w, h, true, true) ;
-		turtle2 = new Image("file:Resources/Turtle/TurtleAnimation2Wet.png", w, h, true, true) ;
-		turtle3 = new Image("file:Resources/Turtle/TurtleAnimation3Wet.png", w, h, true, true) ;
-		turtle4 = new Image("file:Resources/Turtle/TurtleAnimation4Wet.png", w, h, true, true) ;
+		turtle1 = new Image("file:Resources/Turtle/turtleAnimation1.png", w, h, true, true) ;
+		turtle2 = new Image("file:Resources/Turtle/turtleAnimation2Wet.png", w, h, true, true) ;
+		turtle3 = new Image("file:Resources/Turtle/turtleAnimation3Wet.png", w, h, true, true) ;
+		turtle4 = new Image("file:Resources/Turtle/turtleAnimation4Wet.png", w, h, true, true) ;
 		
 		// Set wet turtle's starting point
 		setX(xpos) ;
@@ -61,6 +61,7 @@ public class WetTurtle extends Actor{
 	 */
 	@Override
 	public void act(long now) {
+		// Turtle swimming and sinking
 		if (now/900000000  % 4 == 0) {
 			setImage(turtle2) ;
 			sunk = false ;
@@ -78,7 +79,7 @@ public class WetTurtle extends Actor{
 			sunk = true ;
 		}
 		
-		// Set wet turtle'sc movement speed
+		// Set wet turtle's movement speed
 		move(speed , 0) ;
 		
 		// When whole wet turtle exits left or right boundary , reset position of wet turtle to starting point

@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Optional;
 
-import com.yiyonglim.Character.Animal;
 import com.yiyonglim.Scoreboard.Digit;
 import com.yiyonglim.Stage.Stage2;
 import com.yiyonglim.Stage.Stage3;
@@ -34,8 +33,12 @@ import javafx.stage.Stage;
 public class StageScene extends World {
 	// Set up media player
 	MediaPlayer mediaPlayer ;
-	// Tracking stage progress
+	// Tracking stage progress (current stage)
 	public static int stage = 1 ;
+	// Initialize starting score
+	public static int points = 0 ;
+	// Initialize number of stages completed
+	public static int end = 0 ;
 	// Create timer
 	AnimationTimer timer ;
 	
@@ -85,82 +88,100 @@ public class StageScene extends World {
 	 * Create timer for each stage to track stage's progress
 	 */
 	public void createStageTimer() {
-
+		
         timer = new AnimationTimer() {
             @Override
             public void handle(long now) {
             	// Set score board
-            	setNumber(Animal.points) ;
+            	setNumber(points) ;
             	
             	// If user completed current stage , closed current stage and proceed to new stage
-            	if(Animal.end == 1 && StageScene.stage == 1) {
+            	// end and stage must be the same number to indicate stage completed
+            	if(end == 1 && stage == 1) {
             		
-            		StageScene.stage ++ ;
+            		stage ++ ;
             		
             		stopStageMusic() ;
             		
-            		Stage currentStage = (Stage) getScene().getWindow();
-            		currentStage.close();
-            		
+            		try {
+            			Stage currentStage = (Stage) getScene().getWindow();
+                		currentStage.close();
+            		} catch (NullPointerException e) {
+            			System.out.println("Error closing window !") ;
+            		}
+            		            		
             		// Trigger startup of stage 2
             		Stage2 stage2 = new Stage2() ;
+            		
             		try {
 						stage2.start(new Stage()) ;
 					} catch (Exception e) {
-						e.printStackTrace();
+						System.out.println("Error starting window !");
 					}
             		
-            	} else if (Animal.end == 2 && StageScene.stage == 2) {
+            	} else if (end == 2 && stage == 2) {
             		
-            		StageScene.stage ++ ;
+            		stage ++ ;
             		
             		stopStageMusic() ;
             		
-            		Stage currentStage = (Stage) getScene().getWindow();
-            		currentStage.close();
+            		try {
+            			Stage currentStage = (Stage) getScene().getWindow();
+                		currentStage.close();
+            		} catch (NullPointerException e) {
+            			System.out.println("Error closing window !") ;
+            		}
             		
             		// Trigger startup of stage 3
             		Stage3 stage3 = new Stage3() ;
             		try {
 						stage3.start(new Stage()) ;
 					} catch (Exception e) {
-						e.printStackTrace();
+						System.out.println("Error starting window !") ;
 					}
-            	} else if (Animal.end == 3 && StageScene.stage == 3) {
+            	} else if (end == 3 && stage == 3) {
             		
-            		StageScene.stage ++ ;
+            		stage ++ ;
             		
             		stopStageMusic() ;
             		
-            		Stage currentStage = (Stage) getScene().getWindow();
-            		currentStage.close();
+            		try {
+            			Stage currentStage = (Stage) getScene().getWindow();
+                		currentStage.close();
+            		} catch (NullPointerException e) {
+            			System.out.println("Error closing window !") ;
+            		}
             		
             		// Trigger startup of stage 3
             		Stage4 stage4 = new Stage4() ;
             		try {
 						stage4.start(new Stage()) ;
 					} catch (Exception e) {
-						e.printStackTrace();
+						System.out.println("Error starting window !") ;
 					}
-            	} else if (Animal.end == 4 && StageScene.stage == 4) {
+            	} else if (end == 4 && stage == 4) {
             		
-            		StageScene.stage ++ ;
+            		stage ++ ;
             		
             		stopStageMusic() ;
             		
-            		Stage currentStage = (Stage) getScene().getWindow();
-            		currentStage.close();
+            		try {
+            			Stage currentStage = (Stage) getScene().getWindow();
+                		currentStage.close();
+            		} catch (NullPointerException e) {
+            			System.out.println("Error closing window !") ;
+            		}
             		
             		// Trigger startup of stage 3
             		Stage5 stage5 = new Stage5() ;
             		try {
 						stage5.start(new Stage()) ;
 					} catch (Exception e) {
-						e.printStackTrace();
+						System.out.println("Error starting window !") ;
 					}
-            	} else if (Animal.end == 5 && StageScene.stage == 5) {
+            	} else if (end == 5 && stage == 5) {
             		
-            		StageScene.stage ++ ;
+            		stage ++ ;
             		
             		// Print out in console to show that game has completed
             		System.out.print("END GAME !") ;
@@ -201,7 +222,7 @@ public class StageScene extends World {
             		try {
             	        BufferedWriter output = new BufferedWriter(new FileWriter("leaderboard.txt", true));
             	        output.newLine();
-            	        output.append("" + Animal.points);
+            	        output.append("" + points);
             	        output.close();
             	    } catch (IOException ex1) {
             	        System.out.printf("ERROR writing score to file: %s\n", ex1);
@@ -210,19 +231,19 @@ public class StageScene extends World {
             		// Set pop up window and show message and score obtained to user that the game has completed
             		Alert alert = new Alert(AlertType.INFORMATION) ;
             		
-            	    if (Animal.points > highScore) {    
+            	    if (points > highScore) {    
             	        alert.setTitle("You Have Won The Game!") ;
-                		alert.setHeaderText("Your High Score: "+ Animal.points +"!") ;
+                		alert.setHeaderText("Your High Score: "+ points +"!") ;
                 		alert.setContentText("You beat the previous high score " + highScore) ;
                 		alert.show() ;
-            	    } else if (Animal.points == highScore) {
+            	    } else if (points == highScore) {
             	        alert.setTitle("You Have Won The Game!") ;
-                		alert.setHeaderText("Your High Score: "+Animal.points+"!") ;
+                		alert.setHeaderText("Your High Score: "+points+"!") ;
                 		alert.setContentText("So close! You tied the high score!") ;
                 		alert.show() ;
             	    } else {
             	        alert.setTitle("You Have Won The Game!") ;
-                		alert.setHeaderText("Your High Score: "+Animal.points+"!") ;
+                		alert.setHeaderText("Your High Score: "+points+"!") ;
                 		alert.setContentText("The all time high score was " + highScore) ;
                 		alert.show() ;
             	    }

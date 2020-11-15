@@ -28,9 +28,9 @@ public class Turtle extends Actor{
 	 */
 	public Turtle(int xpos, int ypos, int s, int w, int h) {
 		// Set turtle's image
-		turtle1 = new Image("file:Resources/Turtle/TurtleAnimation1.png", w, h, true, true) ;
-		turtle2 = new Image("file:Resources/Turtle/TurtleAnimation2.png", w, h, true, true) ;
-		turtle3 = new Image("file:Resources/Turtle/TurtleAnimation3.png", w, h, true, true) ;
+		turtle1 = new Image("file:Resources/Turtle/turtleAnimation1.png", w, h, true, true) ;
+		turtle2 = new Image("file:Resources/Turtle/turtleAnimation2.png", w, h, true, true) ;
+		turtle3 = new Image("file:Resources/Turtle/turtleAnimation3.png", w, h, true, true) ;
 		
 		// Set turtle's starting point
 		setX(xpos) ;
@@ -49,6 +49,7 @@ public class Turtle extends Actor{
 	 */
 	@Override
 	public void act(long now) {
+		// Turtle swimming
 		if (now/900000000  % 3 == 0) {
 			setImage(turtle2) ;
 		}

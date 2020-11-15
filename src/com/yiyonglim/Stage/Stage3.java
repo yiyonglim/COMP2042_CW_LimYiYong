@@ -1,7 +1,7 @@
 package com.yiyonglim.Stage ;
 
 import com.yiyonglim.Character.Animal;
-import com.yiyonglim.Goal.End;
+import com.yiyonglim.Goal.Goal;
 import com.yiyonglim.Obstacle.Obstacle;
 import com.yiyonglim.Platform.Log;
 import com.yiyonglim.Platform.Turtle;
@@ -47,7 +47,7 @@ public class Stage3 extends Application {
 	    Scene scene  = new Scene(stageScene,600,800) ;
 
 	    // Initialize stage's background
-		StageBackgroundImage froggerback = new StageBackgroundImage("file:Resources/StageBackground/Stage3Background.png") ;
+		StageBackgroundImage froggerback = new StageBackgroundImage("file:Resources/StageBackground/stage3Background.png") ;
 
 		// Add to stage scene
 		stageScene.add(froggerback) ;
@@ -71,7 +71,7 @@ public class Stage3 extends Application {
 		stageScene.add(new WetTurtle(700, 376, -1, 130, 130)) ;
 		
 		// Set goal's position for frog to enter
-		stageScene.add(new End(265,105));
+		stageScene.add(new Goal(265,105));
 		
 		// Create frog (user control character)
 		animal = new Animal("file:Resources/Frog/frogUp1.png") ;

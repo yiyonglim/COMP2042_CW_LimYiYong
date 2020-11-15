@@ -1,0 +1,12 @@
+com.yiyonglim.Actor
+com.yiyonglim.Character
+com.yiyonglim.Goal
+com.yiyonglim.Main
+com.yiyonglim.Obstacle
+com.yiyonglim.Platform
+com.yiyonglim.Scoreboard
+com.yiyonglim.Stage
+com.yiyonglim.StageBackgroundImage
+com.yiyonglim.StageScene
+com.yiyonglim.TestCase
+com.yiyonglim.World

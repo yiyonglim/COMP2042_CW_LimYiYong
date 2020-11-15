@@ -44,13 +44,14 @@ import javafx.util.Duration ;
 /**
  * Main menu
  * It contains START , HOW TO PLAY , LEADERBOARD , EXIT
+ * The {@code MainMenu} class is responsible for initializing and running the game.
  * @author yiyonglim
  */
 public class MainMenu extends Application {
 		// Initialize media player to play music
 		MediaPlayer mediaPlayer ;
 		// Initialize game menu (Main menu , How to play , Leaderboard)
-	    private GameMenu gameMenu ;
+	    private GameMenu mainMenu ;
 	   
 	    /**
 	     * Start main menu
@@ -65,9 +66,9 @@ public class MainMenu extends Application {
 	        Pane root = new Pane();
 	        root.setPrefSize(600, 800);
 	        
-	        // Set up game menu (main menu . how to play , leaderboard)
-	        gameMenu = new GameMenu();
-	        gameMenu.setVisible(false);
+	        // Set up a game menu for main menu
+	        mainMenu = new GameMenu();
+	        mainMenu.setVisible(false);
 
 	        // Set title's image
 	        InputStream title = Files.newInputStream(Paths.get("Resources/Font/frogger.png"));
@@ -107,7 +108,7 @@ public class MainMenu extends Application {
 	        bgView.setFitHeight(800);
 	        
 	        // Add to main menu interface
-	        root.getChildren().addAll(bgView,titleView,pressEnterView, gameMenu);
+	        root.getChildren().addAll(bgView,titleView,pressEnterView, mainMenu);
 	        
 	        // Add to scene (main menu)
 	        Scene scene = new Scene(root);
@@ -116,10 +117,10 @@ public class MainMenu extends Application {
 	        scene.setOnMouseEntered(event -> {
 	        	// Play main menu music when mouse entered game window
         		mediaPlayer.play();
-	        	// If gameMenu is shown , hide "PRESS ENTER" instruction
-	        	if (gameMenu.isVisible()) {
+	        	// If main menu is shown , hide "PRESS ENTER" instruction
+	        	if (mainMenu.isVisible()) {
 	        		pressEnterView.setVisible(false);
-	        	} else { // If gameMenu isn't shown , hide "PRESS ENTER" instruction
+	        	} else { // If main menu isn't shown , hide "PRESS ENTER" instruction
 	        		pressEnterView.setVisible(true);
 	        	}
 	        }) ;
@@ -128,23 +129,23 @@ public class MainMenu extends Application {
 	        	pressEnterView.setVisible(false) ;
 	        }) ;
 	        
-	        // Show or hide gameMenu
+	        // Show or hide main menu
 	        scene.setOnKeyPressed(event -> {
 	            if (event.getCode() == KeyCode.ENTER) {
-	            	// If gameMenu isn't shown , "PRESS ENTER" to show
-	                if (!gameMenu.isVisible()) {
-	                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+	            	// If main menu isn't shown , "PRESS ENTER" to show
+	                if (!mainMenu.isVisible()) {
+	                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), mainMenu);
 	                    ft.setFromValue(0);
 	                    ft.setToValue(1);
-	                    gameMenu.setVisible(true);
+	                    mainMenu.setVisible(true);
 	                    pressEnterView.setVisible(false);
 	                    ft.play();
 	                }
-	                else { // If gameMenu is shown , "PRESS ENTER" to hide
-	                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), gameMenu);
+	                else { // If main menu is shown , "PRESS ENTER" to hide
+	                    FadeTransition ft = new FadeTransition(Duration.seconds(0.5), mainMenu);
 	                    ft.setFromValue(1);
 	                    ft.setToValue(0);
-	                    ft.setOnFinished(evt -> gameMenu.setVisible(false));
+	                    ft.setOnFinished(evt -> mainMenu.setVisible(false));
 	                    ft.play();
 	                }
 	            }
@@ -158,8 +159,8 @@ public class MainMenu extends Application {
 	    }
 
 	    /**
-	     * Set up game menu (main menu , how to play , leaderboard)
-	     * @author yylim
+	     * Set up game menu for main menu , how to play and leaderboard
+	     * @author yiyonglim
 	     */
 	    private class GameMenu extends Parent {
 	    	
@@ -487,7 +488,7 @@ public class MainMenu extends Application {
 	        private Text text ;
 	        
 	        /**
-	         * Set effect and style
+	         * Set text effect and style
 	         * @param name Text shown on button
 	         */
 	        public MenuButton(String name) {
@@ -536,7 +537,7 @@ public class MainMenu extends Application {
 	        private Text text;
 
 	        /**
-	         * Set effect and style
+	         * Set text effect and style
 	         * @param name
 	         */
 	        public HighScore(String name) {
@@ -595,7 +596,7 @@ public class MainMenu extends Application {
 	    
 	    /**
 	     * Start javafx program
-	     * @param args It is not fixed and user can use any name in place of it
+	     * @param args Arguments passed by command line while starting a program
 	     */
 	    public static void main(String[] args) {
 	        launch(args);

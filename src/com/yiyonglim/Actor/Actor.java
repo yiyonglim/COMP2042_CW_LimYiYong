@@ -14,8 +14,8 @@ import com.yiyonglim.World.World;
 public abstract class Actor extends ImageView {
 	/**
 	 * Set actors' movement
-	 * @param  dx Actor's X coordinate
-	 * @param  dy Actor's Y coordinate
+	 * @param dx Actor's X coordinate
+	 * @param dy Actor's Y coordinate
 	 */
     public void move(double dx , double dy) {
         setX(getX() + dx) ;
@@ -31,10 +31,10 @@ public abstract class Actor extends ImageView {
     }
     
     /**
-     * Record all intersection between frog and other actors to react accordingly
+     * Record all intersection between actors
      * @param <A> java.util.List
      * @param cls Class of objects to look for (passing 'null' will find all objects)
-     * @return array list of classes
+     * @return array list of intersecting classes
      */
     // Return list of collisions between actors and boundary
     public <A extends Actor> java.util.List<A> getIntersectingObjects(java.lang.Class<A> cls) {

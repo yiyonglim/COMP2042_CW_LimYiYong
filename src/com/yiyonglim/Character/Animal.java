@@ -1,11 +1,12 @@
 package com.yiyonglim.Character ;
 
 import com.yiyonglim.Actor.Actor;
-import com.yiyonglim.Goal.End ;
+import com.yiyonglim.Goal.Goal ;
 import com.yiyonglim.Obstacle.Obstacle ;
 import com.yiyonglim.Platform.Log ;
 import com.yiyonglim.Platform.Turtle ;
 import com.yiyonglim.Platform.WetTurtle ;
+import com.yiyonglim.StageScene.StageScene;
 
 import javafx.event.EventHandler ;
 
@@ -28,11 +29,7 @@ public class Animal extends Actor {
 	Image frogLeft2 ;
 	Image frogDown2 ;
 	Image frogRight2 ;
-	// Initialize starting score
-	public static int points = 0 ;
-	// Initialize number of stages completed
-	public static int end = 0 ;
-	// Initialize frog death animation
+	// Initialize frog's death animation
 	int deathAnimation = 0 ;
 	// Set frog's size
 	int frogSize = 40 ;
@@ -41,7 +38,7 @@ public class Animal extends Actor {
 	// Set frog's horizontal jump distance
 	double movementX = 10.666666*2 ;
 	// Initialize score line , score will be added after passing it 
-	double scoreLine = 800 ;
+	public double scoreLine = 800 ;
 	// Initialize frog's jumping state
 	// true -> fold legs , false -> unfold legs
 	private boolean jump = false ;
@@ -51,10 +48,10 @@ public class Animal extends Actor {
 	// Initialize frog's death reason
 	// true -> death by vehicle , false -> not death by vehicle
 	// Having collision with car or truck
-	boolean vehicleDeath = false ;
+	public boolean vehicleDeath = false ;
 	// true -> death by water , false -> not death by water
 	// Fall into water
-	boolean waterDeath = false ;
+	public boolean waterDeath = false ;
 	// Either vehicleDeath or waterDeath can be true at the same time
 	
 	/**
@@ -76,6 +73,7 @@ public class Animal extends Actor {
 		frogLeft2 = new Image("file:Resources/Frog/frogLeft2.png", frogSize, frogSize, true, true) ;
 		frogDown2 = new Image("file:Resources/Frog/frogDown2.png", frogSize, frogSize, true, true) ;
 		frogRight2 = new Image("file:Resources/Frog/frogRight2.png", frogSize, frogSize, true, true) ;
+		
 		// Frog's movement
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
 			// How key pressed is handle
@@ -88,6 +86,7 @@ public class Animal extends Actor {
 					// Check frog's jumping state
 					if (jump) {
 						// Check which key is pressed and response respectively
+						// setOnKeyPressed and setOnKeyreleased are implemented using the same logic
 						// Move up when press ARROW UP
 						if (event.getCode() == KeyCode.UP) {	
 							// Move frog
@@ -147,7 +146,7 @@ public class Animal extends Actor {
 						// Check if frog passed score line
 						if (getY() < scoreLine) {
 							scoreLine = getY() ;
-							points += 10 ;
+							StageScene.points += 10 ;
 						}
 		                	move(0, -movementY) ;
 		                	setImage(frogUp1) ;
@@ -183,6 +182,7 @@ public class Animal extends Actor {
 			setX(300) ;
 			setY(730 + movementY) ;
 		}
+		
 		// When frog hit left or right boundary , it will be pushed back
 		if (getX() < 0) {
 			move(movementY*2, 0) ;
@@ -190,8 +190,51 @@ public class Animal extends Actor {
 		else if(getX() > 570) {
 			move(-movementY*2, 0) ;
 		}
+		
+		// If frog had collision with vehicle(car , truck) , it will die
+		if (getIntersectingObjects(Obstacle.class).size() >= 1) {
+			vehicleDeath = true ;
+		}
+		
+		// If frog step on platform(log , turtle , wet turtle) , stay on and move with it
+		// When frog step on log , stay on and move with it
+		if (getIntersectingObjects(Log.class).size() >= 1 && !noMove) {
+			if(getIntersectingObjects(Log.class).get(0).getLeft())
+				move(-2,0) ;
+			else
+				move (.75,0) ;
+		} // When frog step on turtle , stay on and move with it
+		else if (getIntersectingObjects(Turtle.class).size() >= 1 && !noMove) {
+			move(-1,0) ;
+		} // When frog step on wet turtle , stay on and move with it when it float , fall into water when it sink
+		else if (getIntersectingObjects(WetTurtle.class).size() >= 1) {
+			if (getIntersectingObjects(WetTurtle.class).get(0).isSunk()) {
+				waterDeath = true ;
+			} else {
+				move(-1,0) ;
+			}
+		} // When frog reach goal
+		else if (getIntersectingObjects(Goal.class).size() >= 1) {
+			// Add score for completing a goal
+			StageScene.points += 50 ;
+			// Reset the score line
+			scoreLine = 800 ;
+			// Set goal image (completed)
+			getIntersectingObjects(Goal.class).get(0).setGoal() ;
+			// Increase number of stages completed
+			StageScene.end ++ ;
+			// Reset  position of frog to starting point
+			setX(300) ;
+			setY(730+movementY) ;
+		} // Amplify water death
+		else if (getY() < 413) {
+			waterDeath = true ;
+		}
+		
 		// When frog death by vehicle
+		// vehicleDeath and waterDeath are implemented using the same logic
 		if (vehicleDeath) {
+			
 			// Set frog's movement state
 			noMove = true ;
 			// Show frog's death animation
@@ -220,13 +263,13 @@ public class Animal extends Actor {
 				// Reset frog's movement state
 				noMove = false ;
 				// 50 score will be deducted if died, if score isn't enough to be deducted , deduction is denied
-				if (points > 50) {
-					points -= 50 ;
+				if (StageScene.points >= 50) {
+					StageScene.points -= 50 ;
 				}
 			}
 		}
+		
 		// When frog death by water
-		// Implementation same as above
 		if (waterDeath) {
 			
 			noMove = true ;
@@ -259,48 +302,10 @@ public class Animal extends Actor {
 				
 				noMove = false ;
 				
-				if (points>50) {
-					points-=50 ;
+				if (StageScene.points>=50) {
+					StageScene.points-=50 ;
 				}
 			}
-		}
-		// If frog had collision with vehicle(car , truck) , it will die
-		if (getIntersectingObjects(Obstacle.class).size() >= 1) {
-			vehicleDeath = true ;
-		}
-		// If frog step on platform(log , turtle , wet turtle) , stay on and move with it
-		// When frog step on log , stay on and move with it
-		if (getIntersectingObjects(Log.class).size() >= 1 && !noMove) {
-			if(getIntersectingObjects(Log.class).get(0).getLeft())
-				move(-2,0) ;
-			else
-				move (.75,0) ;
-		} // When frog step on turtle , stay on and move with it
-		else if (getIntersectingObjects(Turtle.class).size() >= 1 && !noMove) {
-			move(-1,0) ;
-		} // When frog step on wet turtle , stay on and move with it when it float , fall into water when it sink
-		else if (getIntersectingObjects(WetTurtle.class).size() >= 1) {
-			if (getIntersectingObjects(WetTurtle.class).get(0).isSunk()) {
-				waterDeath = true ;
-			} else {
-				move(-1,0) ;
-			}
-		} // When frog reach goal
-		else if (getIntersectingObjects(End.class).size() >= 1) {
-			// Add score for completing a goal
-			points += 50 ;
-			// Reset the score line
-			scoreLine = 800 ;
-			// Set goal image (completed)
-			getIntersectingObjects(End.class).get(0).setEnd() ;
-			// Increase number of stages completed
-			end ++ ;
-			// Reset  position of frog to starting point
-			setX(300) ;
-			setY(730+movementY) ;
-		} // Amplify water death
-		else if (getY() < 413) {
-			waterDeath = true ;
 		}
 	}
 }
