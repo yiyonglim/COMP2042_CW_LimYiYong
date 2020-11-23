@@ -4,6 +4,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+/**
+ * Execute all test cases
+ * @author yiyonglim
+ *
+ */
 @RunWith(Suite.class)
 @SuiteClasses({ AnimalTest.class, DigitTest.class, GoalTest.class, LogTest.class, ObstacleTest.class,
 		StageBackgroundImageTest.class, StageSceneTest.class, TurtleTest.class, WetTurtleTest.class })

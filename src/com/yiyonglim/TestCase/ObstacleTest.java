@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.yiyonglim.Obstacle.Obstacle;
+import com.yiyonglim.Obstacle.Vehicle;
 
 import javafx.embed.swing.JFXPanel;
 
@@ -21,9 +21,10 @@ public class ObstacleTest {
 	 */
 	@Test
 	public void testPosition() {
+		
 		System.out.println("\nTest case : Obstacle's starting position");
 		
-		Obstacle test = new Obstacle("file:Resources/Car/carLeft.png", 150, 704, -1, 50, 50) ;
+		Vehicle test = new Vehicle("file:Resources/Car/carLeft.png", 150, 704, -1, 50, 50) ;
 		
 		assertEquals(150.0 , test.getX(), 0.0) ;
 		assertEquals(704.0 , test.getY(), 0.0) ;
@@ -37,9 +38,10 @@ public class ObstacleTest {
 	 */
 	@Test
 	public void testBehaviour() {
+		
 		System.out.println("\nTest case : Obstacle's  behaviour");
 		
-		Obstacle test = new Obstacle("file:Resources/Car/carLeft.png", 601, 597, 1, 50, 50) ;
+		Vehicle test = new Vehicle("file:Resources/Car/carLeft.png", 601, 597, 1, 50, 50) ;
 		
 		System.out.println("When whole obstacle exit right boundary (getX() > 600) and its speed is 1 (speed > 0), before reset");
 		System.out.println("X-coordinate : " + test.getX());
@@ -53,7 +55,7 @@ public class ObstacleTest {
 		System.out.println("X-coordinate : " + test.getX());
 		System.out.println("Y-coordinate : " + test.getY());
 		
-		Obstacle test1 = new Obstacle("file:Resources/Car/carLeft.png", -51, 597, -1, 50, 50) ;
+		Vehicle test1 = new Vehicle("file:Resources/Car/carLeft.png", -51, 597, -1, 50, 50) ;
 		
 		System.out.println("When whole obstacle exit left boundary (getX() < -50) and its speed is -1 (speed < 0), before reset");
 		System.out.println("X-coordinate : " + test1.getX());

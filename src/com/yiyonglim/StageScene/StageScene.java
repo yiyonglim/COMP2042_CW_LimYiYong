@@ -27,56 +27,56 @@ import javafx.scene.media.MediaPlayer ;
 import javafx.stage.Stage;
 
 /**
- * Handle stage scene (pause game , end game , stag's music ,stage's progress , actors in every stages , score board , read / write leaderboard)
+ * Handle stage scene
+ * pause game , end game , stage's music ,stage's progress , actors in every stages , score board , read / write leaderboard
  * @author yiyonglim
  */
 public class StageScene extends World {
-	// Set up media player
-	MediaPlayer mediaPlayer ;
-	// Tracking stage progress (current stage)
-	public static int stage = 1 ;
-	// Initialize starting score
+
+	AnimationTimer stageTimer ;
+	
+	MediaPlayer stageMusic ;
+
+	public static int stageCompleted = 0 ;
+	public static int currentStage = 1 ;
 	public static int points = 0 ;
-	// Initialize number of stages completed
-	public static int end = 0 ;
-	// Create timer
-	AnimationTimer timer ;
 	
 	/**
-	 * Pause game
+	 * Handle pause game
 	 */
 	public StageScene() {
 		
-		// When user pressed "ESCAPE" , game paused
 		setOnKeyPressed(new EventHandler<KeyEvent>() {
 			
 			public void handle(KeyEvent event){
 				
-				if (event.getCode() == KeyCode.ESCAPE) {	
-					mediaPlayer.pause();
+				if (event.getCode() == KeyCode.ESCAPE) {
+					
+					stageMusic.pause();
 					stop() ;
 					
-					// Show a window to indicate user that game is paused
-					Alert alert1 = new Alert(AlertType.CONFIRMATION) ;
-					
-					alert1.setTitle("Pause") ;
-            		alert1.setHeaderText("Having a break ? Let me tell you a joke") ;
-            		alert1.setContentText(" How does a frog feel when he has a broken leg ?\n Unhoppy") ;
+					Alert pauseAlert = new Alert(AlertType.CONFIRMATION) ;
+					pauseAlert.setTitle("Pause") ;
+            		pauseAlert.setHeaderText("Having a break ? Let me tell you a joke") ;
+            		pauseAlert.setContentText(" How does a frog feel when he has a broken leg ?\n Unhoppy") ;
         
-            		ButtonType buttonResume = new ButtonType("Resume");
-					ButtonType buttonQuit = new ButtonType("Quit");
+            		ButtonType resume = new ButtonType("Resume");
+					ButtonType quit = new ButtonType("Quit");
 					
-					alert1.getButtonTypes().setAll(buttonResume,buttonQuit);
+					pauseAlert.getButtonTypes().setAll(resume,quit);
             		
-            		Optional<ButtonType> result = alert1.showAndWait();
+            		Optional<ButtonType> result = pauseAlert.showAndWait();
             		
-            		if (result.get() == buttonResume){
-            			mediaPlayer.play();
+            		if (result.get() == resume){
+            			
+            			stageMusic.play();
             			start() ;
-            		} else if (result.get() == buttonQuit) {
+            		} else if (result.get() == quit) {
+            			
             			Stage stage = (Stage) getScene().getWindow();
             			stage.close();
             		} else {
+            			
             		    System.exit(0);
             		}
 				}
@@ -89,210 +89,240 @@ public class StageScene extends World {
 	 */
 	public void createStageTimer() {
 		
-        timer = new AnimationTimer() {
+        stageTimer = new AnimationTimer() {
+        	
             @Override
             public void handle(long now) {
-            	// Set score board
-            	setNumber(points) ;
+
+            	setScoreBoard(points) ;
             	
             	// If user completed current stage , closed current stage and proceed to new stage
-            	// end and stage must be the same number to indicate stage completed
-            	if(end == 1 && stage == 1) {
+            	if(stageCompleted == 1 && currentStage == 1) {
             		
-            		stage ++ ;
+            		currentStage ++ ;
             		
             		stopStageMusic() ;
             		
             		try {
+            			
+            			getChildren().clear();
+            			
             			Stage currentStage = (Stage) getScene().getWindow();
-                		currentStage.close();
+            			currentStage.close();
             		} catch (NullPointerException e) {
-            			System.out.println("Error closing window !") ;
+            			
+            			System.out.println("Error closing stage 1 !") ;
             		}
             		            		
-            		// Trigger startup of stage 2
             		Stage2 stage2 = new Stage2() ;
             		
             		try {
+            			
 						stage2.start(new Stage()) ;
 					} catch (Exception e) {
-						System.out.println("Error starting window !");
+						
+						System.out.println("Error starting stage 2 !");
 					}
             		
-            	} else if (end == 2 && stage == 2) {
+            	} else if (stageCompleted == 2 && currentStage == 2) {
             		
-            		stage ++ ;
+            		currentStage ++ ;
             		
             		stopStageMusic() ;
             		
             		try {
+            			
+            			getChildren().clear();
+            			
             			Stage currentStage = (Stage) getScene().getWindow();
                 		currentStage.close();
             		} catch (NullPointerException e) {
-            			System.out.println("Error closing window !") ;
+            			
+            			System.out.println("Error closing stage 2 !") ;
             		}
             		
-            		// Trigger startup of stage 3
             		Stage3 stage3 = new Stage3() ;
+            		
             		try {
+            			
 						stage3.start(new Stage()) ;
 					} catch (Exception e) {
-						System.out.println("Error starting window !") ;
+						
+						System.out.println("Error starting stage 3 !") ;
 					}
-            	} else if (end == 3 && stage == 3) {
+            	} else if (stageCompleted == 3 && currentStage == 3) {
             		
-            		stage ++ ;
+            		currentStage ++ ;
             		
             		stopStageMusic() ;
             		
             		try {
+            			
+            			getChildren().clear();
+            			
             			Stage currentStage = (Stage) getScene().getWindow();
                 		currentStage.close();
             		} catch (NullPointerException e) {
-            			System.out.println("Error closing window !") ;
+            			
+            			System.out.println("Error closing stage 3 !") ;
             		}
             		
-            		// Trigger startup of stage 3
             		Stage4 stage4 = new Stage4() ;
+            		
             		try {
+            			
 						stage4.start(new Stage()) ;
 					} catch (Exception e) {
-						System.out.println("Error starting window !") ;
+						
+						System.out.println("Error starting stage 4 !") ;
 					}
-            	} else if (end == 4 && stage == 4) {
+            	} else if (stageCompleted == 4 && currentStage == 4) {
             		
-            		stage ++ ;
+            		currentStage ++ ;
             		
             		stopStageMusic() ;
             		
             		try {
+            			
+            			getChildren().clear();
+            			
             			Stage currentStage = (Stage) getScene().getWindow();
                 		currentStage.close();
             		} catch (NullPointerException e) {
-            			System.out.println("Error closing window !") ;
+            			
+            			System.out.println("Error closing stage 4 !") ;
             		}
             		
-            		// Trigger startup of stage 3
             		Stage5 stage5 = new Stage5() ;
+            		
             		try {
+            			
 						stage5.start(new Stage()) ;
 					} catch (Exception e) {
-						System.out.println("Error starting window !") ;
+						
+						System.out.println("Error starting stage 5 !") ;
 					}
-            	} else if (end == 5 && stage == 5) {
+            	} else if (stageCompleted == 5 && currentStage == 5) {
             		
-            		stage ++ ;
-            		
-            		// Print out in console to show that game has completed
-            		System.out.print("END GAME !") ;
-            		
-            		// Stop music
+            		currentStage ++ ;
+
             		stopStageMusic() ;
             		
-            		// Initialize high score
+            		stop() ;
+            		         		
+            		// Obtain highest score from leaderboard.txt and save it to highScore
             		int highScore = 0;
             		
-            		// Obtain high score from leaderboard.txt
             		try {
+            			
             	        BufferedReader reader = new BufferedReader(new FileReader("leaderboard.txt"));
             	        String line = reader.readLine();
-            	        // read the leaderboard.txt. line by line
-            	        while (line != null)
-            	        {
+
+            	        while (line != null) {
             	            try {
-            	            	// Parse each line as an int
+            	            	
             	                int score = Integer.parseInt(line.trim());
-            	                // Keep track of the largest
+
             	                if (score > highScore)
             	                { 
             	                    highScore = score; 
             	                }
             	            } catch (NumberFormatException e1) {
-            	                System.err.println("ignoring invalid score: " + line);
+            	            	
+            	                System.err.println("Ignoring invalid score: " + line);
             	            }
             	            line = reader.readLine();
             	        }
             	        reader.close();
 
             	    } catch (IOException ex) {
-            	        System.err.println("ERROR reading high score from file");
+            	    	
+            	        System.err.println("Error reading high score from leaderboard.txt");
             	    }
             		
-            	    // Record score to leaderboard.txt
             		try {
+            			
             	        BufferedWriter output = new BufferedWriter(new FileWriter("leaderboard.txt", true));
             	        output.newLine();
             	        output.append("" + points);
             	        output.close();
-            	    } catch (IOException ex1) {
-            	        System.out.printf("ERROR writing score to file: %s\n", ex1);
+            	    } catch (IOException e) {
+            	    	
+            	        System.out.printf("Error writing score to file: %s\n", e);
             	    }
             		
-            		// Set pop up window and show message and score obtained to user that the game has completed
-            		Alert alert = new Alert(AlertType.INFORMATION) ;
+            		Alert endGameAlert = new Alert(AlertType.INFORMATION) ;
             		
-            	    if (points > highScore) {    
-            	        alert.setTitle("You Have Won The Game!") ;
-                		alert.setHeaderText("Your High Score: "+ points +"!") ;
-                		alert.setContentText("You beat the previous high score " + highScore) ;
-                		alert.show() ;
+            	    if (points > highScore) {
+            	    	
+            	        endGameAlert.setTitle("You Have Won The Game!") ;
+                		endGameAlert.setHeaderText("Your High Score: "+ points +"!") ;
+                		endGameAlert.setContentText("You beat the previous high score " + highScore) ;
+                		endGameAlert.show() ;
             	    } else if (points == highScore) {
-            	        alert.setTitle("You Have Won The Game!") ;
-                		alert.setHeaderText("Your High Score: "+points+"!") ;
-                		alert.setContentText("So close! You tied the high score!") ;
-                		alert.show() ;
+            	    	
+            	        endGameAlert.setTitle("You Have Won The Game!") ;
+                		endGameAlert.setHeaderText("Your High Score: "+points+"!") ;
+                		endGameAlert.setContentText("So close! You tied the high score!") ;
+                		endGameAlert.show() ;
             	    } else {
-            	        alert.setTitle("You Have Won The Game!") ;
-                		alert.setHeaderText("Your High Score: "+points+"!") ;
-                		alert.setContentText("The all time high score was " + highScore) ;
-                		alert.show() ;
+            	    	
+            	        endGameAlert.setTitle("You Have Won The Game!") ;
+                		endGameAlert.setHeaderText("Your High Score: "+points+"!") ;
+                		endGameAlert.setContentText("The all time high score was " + highScore) ;
+                		endGameAlert.show() ;
             	    }
             	
-            	    // When alert window is closed , close the whole program
-            	    alert.setOnCloseRequest(event -> {
+            	    endGameAlert.setOnCloseRequest(event -> {
+            	    	
             	    	System.exit(0) ;
 	                });
             	}
             }
         } ;
-        timer.start();
+        stageTimer.start();
     }
 	
 	/**
      * Score board
-     * @param n Number of digit
+     * @param number Number of digit
      */
-	public void setNumber(int n) {
-    	// Move digits in score board to appropriate place when reach single-digit , double-digit and triple-digit....
-    	int shift = 0 ;
+	public void setScoreBoard(int number) {
+		
+    	// Shift digits in score board to appropriate place when reach single-digit , double-digit and triple-digit....
+    	int horizontalShift = 0 ;
     	
-    	while (n > 0) {
-    		  int d = n / 10;
-    		  int k = n - d * 10 ;
-    		  n = d ;
-    		  // Create and add score board to stage scene
-    		  add(new Digit(k, 30, 570 - shift, 25)) ;
-    		  shift += 30 ;
-    		}
+    	while (number > 0) {
+    		
+    		  int tens = number / 10 ;
+    		  int ones = number - tens * 10 ;
+    		  number = tens ;
+
+    		  add(new Digit(ones, 30, 570 - horizontalShift, 25)) ;
+    		  horizontalShift += 30 ;
+    	}
+    	
     }
 	
 	/**
 	 * Play stage music
 	 */
 	public void playStageMusic() {
-		String musicFile = "Resources/StageMusic/stage" + StageScene.stage + "Music.mp3";   
-		// Connect music to media player
-		Media sound = new Media(new File(musicFile).toURI().toString()) ;
-		mediaPlayer = new MediaPlayer(sound) ;
-		mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE) ;
-	    mediaPlayer.play() ;
+		
+		String stageMusicFile = "Resources/StageMusic/stage" + StageScene.currentStage + "Music.mp3";   
+		Media music = new Media(new File(stageMusicFile).toURI().toString()) ;
+		
+		stageMusic = new MediaPlayer(music) ;
+		stageMusic.setCycleCount(MediaPlayer.INDEFINITE) ;
+	    stageMusic.play() ;
 	}
 	
 	/**
-	 * Stop music
+	 * Stop stage music
 	 */
 	public void stopStageMusic() {
-		mediaPlayer.stop() ;
+		
+		stageMusic.stop() ;
 	}
 	
 	@Override

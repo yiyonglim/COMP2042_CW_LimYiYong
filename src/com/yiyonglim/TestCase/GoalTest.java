@@ -23,6 +23,7 @@ public class GoalTest {
 	 */
 	@Test
 	public void testGoalPosition() {
+		
 		System.out.println("\nTest case : Goal's position");
 		
 		Goal test = new Goal(10,105) ;
@@ -37,6 +38,7 @@ public class GoalTest {
 	 */
 	@Test
 	public void testGoalCompleted() {
+		
 		System.out.println("\nTest case : Goal completed");
 		
 		Goal test = new Goal(10,105) ;
@@ -55,8 +57,9 @@ public class GoalTest {
 		animal.act(0);
 		
 		assertEquals(true , test.isCompleted()) ;
+		
 		System.out.println("After frog reached goal : " + test.isCompleted());
 
-		StageScene.end = 0 ;
+		StageScene.stageCompleted = 0 ;
 	}
 }

@@ -8,65 +8,60 @@ import javafx.scene.image.Image ;
  * Handle turtle (platform)
  * If frog step on turtle , move with it
  * @author yiyonglim
- *
  */
 public class Turtle extends Actor{
-	// Initialize turtle's image
-	Image turtle1 ;
-	Image turtle2 ;
-	Image turtle3 ;
-	// Initialize turtle's movement speed
-	private int speed ;
+
+	Image turtleSwim1 ;
+	Image turtleSwim2 ;
+	Image turtleSwim3 ;
+	
+	private int turtleSpeed ;
 	
 	/**
 	 * Set up a turtle
 	 * @param xpos Turtle's X coordinate
 	 * @param ypos Turtle's Y coordinate
-	 * @param s Turtle's speed
-	 * @param w Turtle's width
-	 * @param h Turtle's height
+	 * @param speed Turtle's speed
+	 * @param width Turtle's width
+	 * @param height Turtle's height
 	 */
-	public Turtle(int xpos, int ypos, int s, int w, int h) {
-		// Set turtle's image
-		turtle1 = new Image("file:Resources/Turtle/turtleAnimation1.png", w, h, true, true) ;
-		turtle2 = new Image("file:Resources/Turtle/turtleAnimation2.png", w, h, true, true) ;
-		turtle3 = new Image("file:Resources/Turtle/turtleAnimation3.png", w, h, true, true) ;
+	public Turtle(int xpos, int ypos, int speed, int width, int height) {
+
+		turtleSwim1 = new Image("file:Resources/Turtle/turtleSwim1.png", width, height, true, true) ;
+		turtleSwim2 = new Image("file:Resources/Turtle/turtleSwim2.png", width, height, true, true) ;
+		turtleSwim3 = new Image("file:Resources/Turtle/turtleSwim3.png", width, height, true, true) ;
 		
-		// Set turtle's starting point
 		setX(xpos) ;
 		setY(ypos) ;
+
+		turtleSpeed = speed ;
 		
-		// Set turtle's movement speed
-		speed = s ;
-		
-		// Set initial image of turtle (when turtle starting to swim)
-		setImage(turtle2) ;
+		setImage(turtleSwim2) ;
 	}
 	
 	/**
 	 * Set turtle into action
-	 * Turtle's image will keep changing because it is swimming
 	 */
 	@Override
 	public void act(long now) {
+
 		// Turtle swimming
 		if (now/900000000  % 3 == 0) {
-			setImage(turtle2) ;
+			setImage(turtleSwim2) ;
 		}
 		else if (now/900000000 % 3 == 1) {
-			setImage(turtle1) ;
+			setImage(turtleSwim1) ;
 		}
 		else if (now/900000000 % 3 == 2) {
-			setImage(turtle3) ;
+			setImage(turtleSwim3) ;
 		}
-				
-		// Set turtle's movement speed				
-		move(speed , 0);
+		
+		move(turtleSpeed , 0);
 		
 		// When whole turtle exits left or right boundary , reset position of turtle to its starting point
-		if (getX() > 600 && speed > 0)
+		if (getX() > 600 && turtleSpeed > 0)
 			setX(-200) ;
-		if (getX() < -75 && speed < 0)
+		if (getX() < -75 && turtleSpeed < 0)
 			setX(600) ;
 	}
 }

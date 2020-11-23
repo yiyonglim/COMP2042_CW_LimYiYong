@@ -2,12 +2,10 @@ package com.yiyonglim.TestCase;
 
 import static org.junit.Assert.assertEquals;
 
-import java.sql.Timestamp;
-
 import org.junit.Test;
 
 import com.yiyonglim.Character.Animal;
-import com.yiyonglim.Obstacle.Obstacle;
+import com.yiyonglim.Obstacle.Vehicle;
 import com.yiyonglim.Platform.WetTurtle;
 import com.yiyonglim.StageScene.StageScene;
 
@@ -22,11 +20,13 @@ import javafx.scene.input.KeyEvent;
 public class AnimalTest {
 
 	JFXPanel jfxPanel = new JFXPanel() ;
+	
 	/**
 	 * Test if frog is in correct starting position (x,y) when game started
 	 */
 	@Test
 	public void testStartingPosition() {
+		
 		System.out.println("\nTest case : Frog starting position") ;
 		
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
@@ -43,6 +43,7 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testUP() {
+		
 		System.out.println("\nTest case : Frog move UP") ;
 		
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
@@ -50,11 +51,9 @@ public class AnimalTest {
 		System.out.println("Before move up , X-coordinate : " + test.getX()) ;
 		System.out.println("Before move up , Y-coordinate : " + test.getY()) ;
 		
-		// When ARROW UP is pressed
 		test.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED,KeyCode.UP.toString(), KeyCode.UP.toString(), KeyCode.UP, false, false, false, false));
 		assertEquals(730.0 , test.getY() , 0.0) ;
 		
-		// When ARROW UP is released
 		test.fireEvent(new KeyEvent(KeyEvent.KEY_RELEASED,KeyCode.UP.toString(), KeyCode.UP.toString(), KeyCode.UP, false, false, false, false));
 		assertEquals(703.3333334 , test.getY() , 0.0) ;
 		
@@ -67,18 +66,18 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testDOWN() {
+		
 		System.out.println("\nTest case : Frog move DOWN") ;
 
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
 		test.setY(703.3333334);
+		
 		System.out.println("Before move down , X-coordinate : " + test.getX()) ;
 		System.out.println("Before move down , Y-coordinate : " + test.getY()) ;
 		
-		// When ARROW DOWN is pressed
 		test.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED,KeyCode.DOWN.toString(), KeyCode.DOWN.toString(), KeyCode.DOWN, false, false, false, false));
 		assertEquals(730.0  , test.getY() , 0.0) ;
 		
-		// When ARROW DOWN is pressed
 		test.fireEvent(new KeyEvent(KeyEvent.KEY_RELEASED,KeyCode.DOWN.toString(), KeyCode.DOWN.toString(), KeyCode.DOWN, false, false, false, false));
 		assertEquals(756.6666666 , test.getY() , 0.0) ;
 		
@@ -91,6 +90,7 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testLEFT() {
+		
 		System.out.println("\nTest case : Frog move LEFT") ;
 
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
@@ -98,11 +98,9 @@ public class AnimalTest {
 		System.out.println("Before move left , X-coordinate : " + test.getX()) ;
 		System.out.println("Before move left , Y-coordinate : " + test.getY()) ;
 		
-		// When ARROW LEFT is pressed
 		test.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED,KeyCode.LEFT.toString(), KeyCode.LEFT.toString(), KeyCode.LEFT, false, false, false, false));
 		assertEquals(278.666668 , test.getX() , 0.0) ;
 		
-		// When ARROW LEFT is released
 		test.fireEvent(new KeyEvent(KeyEvent.KEY_RELEASED,KeyCode.LEFT.toString(), KeyCode.LEFT.toString(), KeyCode.LEFT, false, false, false, false));
 		assertEquals(257.33333600000003 , test.getX() , 0.0) ;
 		
@@ -115,6 +113,7 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testRIGHT() {
+		
 		System.out.println("\nTest case : Frog move RIGHT") ;
 		
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
@@ -122,11 +121,9 @@ public class AnimalTest {
 		System.out.println("Before move right , X-coordinate : " + test.getX()) ;
 		System.out.println("Before move right , Y-coordinate : " + test.getY()) ;
 		
-		// When ARROW RIGHT is pressed
 		test.fireEvent(new KeyEvent(KeyEvent.KEY_PRESSED,KeyCode.RIGHT.toString(), KeyCode.RIGHT.toString(), KeyCode.RIGHT, false, false, false, false));
 		assertEquals(321.333332 , test.getX() , 0.0) ;
 		
-		// When ARROW RIGHT is released
 		test.fireEvent(new KeyEvent(KeyEvent.KEY_RELEASED,KeyCode.RIGHT.toString(), KeyCode.RIGHT.toString(), KeyCode.RIGHT, false, false, false, false));
 		assertEquals(342.66666399999997 , test.getX() , 0.0) ;
 		
@@ -140,9 +137,11 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testScore() {
+		
 		System.out.println("\nTest case : Score line");
 
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
+		
 		System.out.println("Score before passing score line : " + StageScene.points);
 		System.out.println("Score line before passing score line : " + test.scoreLine);
 		
@@ -161,6 +160,7 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testBoundaryTopBottom()  {
+		
 		System.out.println("\nTest case : Top and bottom boundaries");
 		
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
@@ -211,6 +211,7 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testBoundaryLeftRight()  {
+		
 		System.out.println("\nTest case : Left and right boundaries");
 		
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
@@ -234,7 +235,6 @@ public class AnimalTest {
 		System.out.println("X-coordinate : " + test.getX());
 		System.out.println("Y-coordinate : " + test.getY());
 		
-		// Top boundary (reset to starting position Y when hit it)
 		Animal test1 = new Animal("file:Resources/Frog/frogUp1.png") ;
 		
 		test1.setY(400.0);
@@ -262,9 +262,10 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testVehicleDeath() {
+		
 		System.out.println("\nTest case : Vehicle death and score deduction");
 
-		Obstacle obstacle = new Obstacle("file:Resources/Truck/truck1Right.png", 300, 540, 1, 200, 200) ;
+		Vehicle obstacle = new Vehicle("file:Resources/Truck/truck1Right.png", 300, 540, 1, 200, 200) ;
 		
 		Animal test = new Animal("file:Resources/Frog/frogUp1.png") ;
 		
@@ -303,9 +304,13 @@ public class AnimalTest {
 	 */
 	@Test
 	public void testWaterDeath() {
+		
 		System.out.println("\nTest case : Water death and score deduction");
 		
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf("2000-01-01 00:00:00.0");
+		
+		System.out.println(timestamp.getTime());
+
 		
 		WetTurtle obstacle = new WetTurtle(500, 376, -1, 130, 130) ;
 		
@@ -326,7 +331,7 @@ public class AnimalTest {
 		b.add(test);	
 		b.add(obstacle);
 		
-		obstacle.act(timestamp.getTime());
+		obstacle.act(timestamp.getTime() + 3);
 
 		// waterDeath has 5 death animation , hence act(long now) need to be invoked 5 times
 		test.act(0);
@@ -344,7 +349,6 @@ public class AnimalTest {
 		System.out.println("X-coordinate : " + test.getX());
 		System.out.println("Y-coordinate : " + test.getY());
 		
-		// Frog has fallen into water
 		Animal test2 = new Animal("file:Resources/Frog/frogUp1.png") ;
 		
 		test2.setX(500.0) ;

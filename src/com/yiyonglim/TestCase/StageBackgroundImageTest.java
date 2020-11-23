@@ -21,12 +21,14 @@ public class StageBackgroundImageTest {
 	 */
 	@Test
 	public void test() {
+		
 		System.out.println("Test case : Stage's background image") ;
 
 		StageBackgroundImage test =  new StageBackgroundImage("file:Resources/StageBackground/Stage1Background.png") ;
 		
-		assertEquals(true , test.isSet()) ;
-		System.out.println("Is stage's background image set : " + test.isSet());
+		assertEquals(true , test.isStageBackgroundImageSet()) ;
+		
+		System.out.println("Is stage's background image set : " + test.isStageBackgroundImageSet());
 	}
 
 }

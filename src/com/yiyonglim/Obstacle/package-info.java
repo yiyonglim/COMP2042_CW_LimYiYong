@@ -1,4 +1,4 @@
 /**
- * Content : Obstacle.java
+ * Content : Vehicle.java
  */
 package com.yiyonglim.Obstacle;

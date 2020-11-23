@@ -21,6 +21,7 @@ public class LogTest {
 	 */
 	@Test
 	public void testPosition() {
+		
 		System.out.println("\nTest case : Log's starting position");
 		
 		Log test = new Log("file:Resources/Log/log3.png", 150, 0, 166, 0.75) ;
@@ -37,6 +38,7 @@ public class LogTest {
 	 */
 	@Test
 	public void testBehaviour() {
+		
 		System.out.println("\nTest case : Log's  behaviour");
 		
 		Log test = new Log("file:Resources/Log/log3.png", 150, 601, 166, 1) ;
@@ -73,6 +75,7 @@ public class LogTest {
 	 */
 	@Test
 	public void testSpeed() {
+		
 		System.out.println("\nTest case : Log's  speed");
 		
 		Log test = new Log("file:Resources/Log/log3.png", 150, 601, 166, -1) ;

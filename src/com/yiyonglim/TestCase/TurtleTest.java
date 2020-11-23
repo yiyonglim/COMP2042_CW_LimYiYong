@@ -21,6 +21,7 @@ public class TurtleTest {
 	 */
 	@Test
 	public void testPosition() {
+		
 		System.out.println("\nTest case : Turtle's starting position");
 		
 		Turtle test = new Turtle(500, 376, -1, 130, 130) ;
@@ -37,6 +38,7 @@ public class TurtleTest {
 	 */
 	@Test
 	public void testBehaviour() {
+		
 		System.out.println("\nTest case : Turtle's  behaviour");
 		
 		Turtle test = new Turtle(601, 376, 1, 130, 130) ;

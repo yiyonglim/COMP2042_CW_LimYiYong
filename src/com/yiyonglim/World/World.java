@@ -18,43 +18,55 @@ import javafx.scene.layout.Pane ;
 /**
  * Handle whole game (general settings)
  * @author yiyonglim
- *
  */
 public abstract class World extends Pane {
-    // Initialize timer
-	AnimationTimer timer;
+
+	AnimationTimer worldTimer;
     
 	/**
 	 * Create general settings for whole game
 	 */
     public World() {
-    	// Add listener to observe all changes in game
+
     	sceneProperty().addListener(new ChangeListener<Scene>() {
-    		// Detect changes and execute them
+
 			@Override
 			public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
-				// Handle key pressed settings
+
 				if (newValue != null) {
+					
 					newValue.setOnKeyReleased(new EventHandler<KeyEvent>() {
+						
 						@Override
 						public void handle(KeyEvent event) {
+							
 							if(getOnKeyReleased() != null) 
 								getOnKeyReleased().handle(event) ;
+							
 							List<Actor> myActors = getObjects(Actor.class) ;
+							
 							for (Actor anActor: myActors) {
+								
 								if (anActor.getOnKeyReleased() != null) {
+									
 									anActor.getOnKeyReleased().handle(event) ;
 								}
 							}
 						}
 					}) ;
+					
 					newValue.setOnKeyPressed(new EventHandler<KeyEvent>() {
+						
 						@Override
 						public void handle(KeyEvent event) {
+							
 							if(getOnKeyPressed() != null) 
 								getOnKeyPressed().handle(event);
+							
 							List<Actor> myActors = getObjects(Actor.class) ;
+							
 							for (Actor anActor: myActors) {
+								
 								if (anActor.getOnKeyPressed() != null) {
 									anActor.getOnKeyPressed().handle(event) ;
 								}
@@ -69,9 +81,9 @@ public abstract class World extends Pane {
     /**
      * Create timer for handling all actors
      */
-    public void createTimer() {
+    public void createWorldTimer() {
     	
-        timer = new AnimationTimer() {
+        worldTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 act(now) ;
@@ -85,26 +97,28 @@ public abstract class World extends Pane {
     }
 
     /**
-     * Start scene , all actors in action
+     * Start world
      */
     public void start() {
-    	createTimer() ;
-        timer.start() ;
+    	
+    	createWorldTimer() ;
+        worldTimer.start() ;
     }
 
     /**
-     * Stop scene , all actors stop
+     * Stop world
      */
     public void stop() {
-        timer.stop();
+    	
+        worldTimer.stop();
     }
     
     /**
-     * Add actor to game
-     * @param actor Actor, User control character(frog), object(truck , car , log , turtle , wetturtle) , boundary in game
+     * Add actors to game
+     * @param actor Actor, User control character(frog), object(truck , car , log , turtle , wet turtle) , boundary in game
      */
-    // Adding actor into scene
     public void add(Actor actor) {
+    	
         getChildren().add(actor);
     }
 
@@ -113,6 +127,7 @@ public abstract class World extends Pane {
      * @param actor Actor, User control character(frog), object(truck , car , log , turtle , wetturtle) , boundary in game
      */
     public void remove(Actor actor) {
+    	
         getChildren().remove(actor);
     }
 
@@ -122,13 +137,13 @@ public abstract class World extends Pane {
      * @param cls Class of objects to look for (passing 'null' will find all objects)
      * @return array list of classes
      */
-    // Saving actor into array
     @SuppressWarnings("unchecked")
 	public <A extends Actor> List<A> getObjects(Class<A> cls) {
     	
         ArrayList<A> someArray = new ArrayList<A>() ;
         
         for (Node n: getChildren()) {
+        	
             if (cls.isInstance(n)) {
                 someArray.add((A)n) ;
             }
@@ -136,5 +151,9 @@ public abstract class World extends Pane {
         return someArray ;
     }
 
+    /**
+     * For set actors into action
+     * @param now The timestamp of the current frame given in nanoseconds. This value will be the same for all AnimationTimers called during one frame.
+     */
     public abstract void act(long now) ;
 }

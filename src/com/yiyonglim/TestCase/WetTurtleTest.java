@@ -2,8 +2,6 @@ package com.yiyonglim.TestCase;
 
 import static org.junit.Assert.*;
 
-import java.sql.Timestamp;
-
 import org.junit.Test;
 
 import com.yiyonglim.Platform.WetTurtle;
@@ -23,6 +21,7 @@ public class WetTurtleTest {
 	 */
 	@Test
 	public void testPosition() {
+		
 		System.out.println("\nTest case : Wet turtle's starting position");
 		
 		WetTurtle test = new WetTurtle(700, 376, -1, 130, 130) ;
@@ -39,9 +38,10 @@ public class WetTurtleTest {
 	 */
 	@Test
 	public void testSunk() {
+		
 		System.out.println("\nTest case : Wet turtle sunk or float");
 
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf("2000-01-01 00:00:00.0");
 		
 		WetTurtle test = new WetTurtle(700, 376, -1, 130, 130) ;
 
@@ -61,6 +61,7 @@ public class WetTurtleTest {
 	 */
 	@Test
 	public void testBehaviour() {
+		
 		System.out.println("\nTest case : Wet turtle's  behaviour");
 		
 		WetTurtle test = new WetTurtle(601, 376, 1, 130, 130) ;

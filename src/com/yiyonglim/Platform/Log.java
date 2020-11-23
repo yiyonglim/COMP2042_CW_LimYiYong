@@ -10,25 +10,25 @@ import javafx.scene.image.Image ;
  * @author yiyonglim
  */
 public class Log extends Actor {
-	// Initialize log's movement speed
-	private double speed ;
+
+	private double logSpeed ;
 	
 	/**
 	 * Set up a log
-	 * @param imageLink Log's image
+	 * @param image Log's image
 	 * @param size Log's size
 	 * @param xpos Log's X coordinate
 	 * @param ypos Log's Y coordinate
-	 * @param s Log's speed
+	 * @param speed Log's speed
 	 */
-	public Log(String imageLink, int size, int xpos, int ypos, double s) {
-		// Set log's image
-		setImage(new Image(imageLink, size, size, true, true)) ;
-		// Set log's starting point
+	public Log(String image, int size, int xpos, int ypos, double speed) {
+		
+		setImage(new Image(image, size, size, true, true)) ;
+		
 		setX(xpos) ;
 		setY(ypos) ;
-		// Set log's movement speed
-		speed = s ;
+		
+		logSpeed = speed ;
 	}
 	
 	/**
@@ -36,12 +36,13 @@ public class Log extends Actor {
 	 */
 	@Override
 	public void act(long now) {
-		// Set log's movement speed
-		move(speed , 0) ;
+
+		move(logSpeed , 0) ;
+		
 		// When whole log exits left or right boundary , reset position of log to its starting point
-		if (getX() > 600 && speed > 0)
+		if (getX() > 600 && logSpeed > 0)
 			setX(-180) ;
-		if (getX() < -300 && speed < 0)
+		if (getX() < -300 && logSpeed < 0)
 			setX(700) ;
 	}
 	
@@ -50,6 +51,6 @@ public class Log extends Actor {
 	 * @return True when log's movement speed less than 0 , False when log's movement speed equals or more than 0
 	 */
 	public boolean getLeft() {
-		return speed < 0 ;
+		return logSpeed < 0 ;
 	}
 }
