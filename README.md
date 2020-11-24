@@ -90,11 +90,12 @@ ___________________________________________________________________
 >**MainMenu.java (com.yiyonglim.Main)**
 
 - Add to replace Main.java
-    -	MainMenu.java is responsible for initializing and running the game
--	Create game menu , How To Play
-  -	Teach user the controls and scoring system
--	Create game menu , Leaderboard
-  -	Show top 10 high score
+  -	MainMenu.java is responsible for initializing and running the game
+-	Create game menu (How To Play)
+      - Teach user the controls and scoring system
+-	Create game menu (Leaderboard)
+      - Show top 10 high score
+
 ***This whole class is fully self-made , further details and explanation of codes are at MainMenu.java***
 
 >**Vehicle.java (com.yiyonglim.Obstacle)**
@@ -151,7 +152,8 @@ ___________________________________________________________________
 >**Stage1.java , Stage2.java , Stage3.java , Stage4.java , Stage5.java (com.yiyonglim.Stage)**
 
 -	Implemented 5 new stages
-  -	Let user have better gaming experience
+    -	Let user have better gaming experience
+  
 ***These whole classes are fully self-made , further details and explanation of codes are at Stage1.java, Stage2.java, Stage3.java, Stage4.java, Stage5.java accordingly***
 
 >**StageBackgroundImage.java (com.yiyonglim.StageBackgroundImage)**
