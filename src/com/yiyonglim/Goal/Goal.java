@@ -5,8 +5,8 @@ import com.yiyonglim.Actor.Actor ;
 import javafx.scene.image.Image ;
 
 /**
- * Handle goal
- * A goal must be completed in each stage to proceed to new stage
+ * Handle goal . 
+ * Goal must be completed in each stage to proceed to new stage
  * @author yiyonglim
  */
 public class Goal extends Actor{
@@ -14,7 +14,7 @@ public class Goal extends Actor{
 	private boolean goalCompleted = false ;
 	
 	/**
-	 * Set goal's position
+	 * Set goal's position and image
 	 * @param x Goal's X coordinate
 	 * @param y Goal's Y coordinate
 	 */
@@ -27,7 +27,7 @@ public class Goal extends Actor{
 	}
 	
 	/**
-	 * Set completed goal image
+	 * Set goal completed image and state
 	 */
 	public void setGoal() {
 

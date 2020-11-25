@@ -288,6 +288,7 @@ public class AnimalTest {
 		test.act(0);
 		test.act(0);
 		test.act(0);
+		
 		assertEquals(300.0 , test.getX() , 0.0) ;
 		assertEquals(756.6666666 , test.getY() , 0.0) ;
 		assertEquals(0 , StageScene.points) ;

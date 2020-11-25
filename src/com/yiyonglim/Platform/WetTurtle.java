@@ -58,18 +58,22 @@ public class WetTurtle extends Actor{
 		
 		// Turtle swimming and sinking
 		if (now/900000000  % 4 == 0) {
+			
 			setImage(wetTurtleSink1) ;
 			sunk = false ;
 		}
 		else if (now/900000000 % 4 == 1) {
+			
 			setImage(wetTurtleSwim) ;
 			sunk = false ;
 		}
 		else if (now/900000000 % 4 == 2) {
+			
 			setImage(wetTurtleSink2) ;
 			sunk = false ;
 		}
 		else if (now/900000000 % 4 == 3) {
+			
 			setImage(wetTurtleSink3) ;
 			sunk = true ;
 		}

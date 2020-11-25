@@ -30,6 +30,9 @@ public abstract class World extends Pane {
 
     	sceneProperty().addListener(new ChangeListener<Scene>() {
 
+    		/**
+    		 * Track changes in the whole game
+    		 */
 			@Override
 			public void changed(ObservableValue<? extends Scene> observable, Scene oldValue, Scene newValue) {
 
@@ -84,12 +87,16 @@ public abstract class World extends Pane {
     public void createWorldTimer() {
     	
         worldTimer = new AnimationTimer() {
+        	
             @Override
             public void handle(long now) {
+            	
                 act(now) ;
+                
                 List<Actor> actors = getObjects(Actor.class) ;
                 
                 for (Actor anActor: actors) {
+                	
                 	anActor.act(now) ;
                 }
             }
@@ -123,7 +130,7 @@ public abstract class World extends Pane {
     }
 
     /**
-     * Remove actor from game
+     * Remove actors from game
      * @param actor Actor, User control character(frog), object(truck , car , log , turtle , wetturtle) , boundary in game
      */
     public void remove(Actor actor) {
@@ -132,10 +139,10 @@ public abstract class World extends Pane {
     }
 
     /**
-     * Record all Object present in game
+     * Record all objects present in game
      * @param <A> java.util.List
      * @param cls Class of objects to look for (passing 'null' will find all objects)
-     * @return array list of classes
+     * @return Array list of classes
      */
     @SuppressWarnings("unchecked")
 	public <A extends Actor> List<A> getObjects(Class<A> cls) {
@@ -145,6 +152,7 @@ public abstract class World extends Pane {
         for (Node n: getChildren()) {
         	
             if (cls.isInstance(n)) {
+            	
                 someArray.add((A)n) ;
             }
         }

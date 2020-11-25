@@ -27,8 +27,8 @@ import javafx.scene.media.MediaPlayer ;
 import javafx.stage.Stage;
 
 /**
- * Handle stage scene
- * pause game , end game , stage's music ,stage's progress , actors in every stages , score board , read / write leaderboard
+ * Handle stage scene . 
+ * Stage scene consist of pause game , end game , quit game , stage's music , stage's progress , actors in every stages , score board , read / write leaderboard.txt
  * @author yiyonglim
  */
 public class StageScene extends World {
@@ -96,7 +96,7 @@ public class StageScene extends World {
 
             	setScoreBoard(points) ;
             	
-            	// If user completed current stage , closed current stage and proceed to new stage
+            	// If user completed current stage , closed current stage and start new stage
             	if(stageCompleted == 1 && currentStage == 1) {
             		
             		currentStage ++ ;
@@ -115,7 +115,6 @@ public class StageScene extends World {
             		}
             		            		
             		Stage2 stage2 = new Stage2() ;
-            		
             		try {
             			
 						stage2.start(new Stage()) ;
@@ -142,7 +141,6 @@ public class StageScene extends World {
             		}
             		
             		Stage3 stage3 = new Stage3() ;
-            		
             		try {
             			
 						stage3.start(new Stage()) ;
@@ -168,7 +166,6 @@ public class StageScene extends World {
             		}
             		
             		Stage4 stage4 = new Stage4() ;
-            		
             		try {
             			
 						stage4.start(new Stage()) ;
@@ -194,7 +191,6 @@ public class StageScene extends World {
             		}
             		
             		Stage5 stage5 = new Stage5() ;
-            		
             		try {
             			
 						stage5.start(new Stage()) ;
@@ -210,7 +206,7 @@ public class StageScene extends World {
             		
             		stop() ;
             		         		
-            		// Obtain highest score from leaderboard.txt and save it to highScore
+            		// Obtain highest score from leaderboard.txt and compare it with the score obtained by user
             		int highScore = 0;
             		
             		try {
@@ -219,20 +215,23 @@ public class StageScene extends World {
             	        String line = reader.readLine();
 
             	        while (line != null) {
+            	        	
             	            try {
             	            	
             	                int score = Integer.parseInt(line.trim());
 
-            	                if (score > highScore)
-            	                { 
+            	                if (score > highScore) { 
+            	                	
             	                    highScore = score; 
             	                }
             	            } catch (NumberFormatException e1) {
             	            	
             	                System.err.println("Ignoring invalid score: " + line);
             	            }
+            	            
             	            line = reader.readLine();
             	        }
+            	        
             	        reader.close();
 
             	    } catch (IOException ex) {
@@ -280,16 +279,17 @@ public class StageScene extends World {
             	}
             }
         } ;
+        
         stageTimer.start();
     }
 	
 	/**
-     * Score board
-     * @param number Number of digit
+     * Set up Score board
+     * @param number Score
      */
 	public void setScoreBoard(int number) {
 		
-    	// Shift digits in score board to appropriate place when reach single-digit , double-digit and triple-digit....
+    	// Shift digits in score board to appropriate place when reach single-digit , double-digit , triple-digit and so on
     	int horizontalShift = 0 ;
     	
     	while (number > 0) {
@@ -311,7 +311,6 @@ public class StageScene extends World {
 		
 		String stageMusicFile = "Resources/StageMusic/stage" + StageScene.currentStage + "Music.mp3";   
 		Media music = new Media(new File(stageMusicFile).toURI().toString()) ;
-		
 		stageMusic = new MediaPlayer(music) ;
 		stageMusic.setCycleCount(MediaPlayer.INDEFINITE) ;
 	    stageMusic.play() ;

@@ -87,7 +87,6 @@ public class Stage1 extends Application {
 
     	stageScene.createStageTimer() ;
 		stageScene.playStageMusic() ;
-		
 	}
 	
 	/**

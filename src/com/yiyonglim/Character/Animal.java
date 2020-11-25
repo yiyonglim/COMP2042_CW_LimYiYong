@@ -15,8 +15,8 @@ import javafx.scene.input.KeyCode ;
 import javafx.scene.input.KeyEvent ;
 
 /**
- * Handle frog
- * Frog , user control character
+ * Handle frog . 
+ * Frog is user control character
  * @author yiyonglim
  */
 public class Animal extends Actor {
@@ -43,18 +43,16 @@ public class Animal extends Actor {
 	// true -> frogMoveUp1 , frogMoveDown1 , frogMoveLeft1 , frogMoveRight1 (frog folds its legs)
 	// false -> frogMoveUp2 , frogMoveDown2 , frogMoveLeft2 , frogMoveRight2 (frog unfolds its legs)
 	private boolean frogJump = false ;
-	// true -> frog is stationary
-	// false -> frog is moving	
 	private boolean frogNoMove = false ;
 	
 	/**
 	 * Create user control character , frog
-	 * @param imageLink Frog's image
+	 * @param image Frog's image
 	 */
-	public Animal(String imageLink) {
+	public Animal(String image) {
 
 		// Frog's starting image
-		setImage(new Image(imageLink, frogSize, frogSize, true, true)) ;
+		setImage(new Image(image, frogSize, frogSize, true, true)) ;
 		
 		// Frog's starting position
 		setX(300) ;
@@ -70,7 +68,7 @@ public class Animal extends Actor {
 		frogMoveDown2 = new Image("file:Resources/Frog/frogDown2.png", frogSize, frogSize, true, true) ;
 		frogMoveRight2 = new Image("file:Resources/Frog/frogRight2.png", frogSize, frogSize, true, true) ;
 		
-		// Frog's movement
+		// Frog's movement (controlled by user)
 		// ARROW UP --> Frog move up
 		// ARROW DOWN --> Frog move down
 		// ARROW LEFT --> Frog move left
@@ -191,14 +189,14 @@ public class Animal extends Actor {
 	@Override
 	public void act(long now) {
 		
-		// When frog reach bottom or top boundary , it will be reset to starting position
+		// When frog reach bottom boundary (0) or top boundary (800) , it will be reset to starting position
 		if (getY() < 0 || getY() > 800) {
 			
 			setX(300) ;
 			setY(730 + frogMovementY) ;
 		}
 		
-		// When frog reach left or right boundary , it will be pushed back
+		// When frog reach left boundary (0) or right boundary (570) , it will be pushed back
 		if (getX() < 0) {
 			
 			move(frogMovementY*2, 0) ;
@@ -208,13 +206,13 @@ public class Animal extends Actor {
 			move(-frogMovementY*2, 0) ;
 		}
 		
-		// Frog will die when having collision with vehicle
+		// Frog will die when having collision with vehicle (car , truck)
 		if (getIntersectingObjects(Vehicle.class).size() >= 1) {
 			
 			frogDeathByVehicle = true ;
 		}
 		
-		// Frog will move with platform when stand on it
+		// Frog will move with platform (log , turtle , wet turtle) when stand on it
 		if (getIntersectingObjects(Log.class).size() >= 1 && !frogNoMove) {
 			
 			if(getIntersectingObjects(Log.class).get(0).getLeft()) {
@@ -225,7 +223,6 @@ public class Animal extends Actor {
 				
 				move (.75,0) ;
 			}
-
 		}
 		else if (getIntersectingObjects(Turtle.class).size() >= 1 && !frogNoMove) {
 			
@@ -242,13 +239,15 @@ public class Animal extends Actor {
 				
 				move(-1,0) ;
 			}
-		} // Proceed to new stage when frog has reached the goal
+		} // Add score and proceed to new stage when frog has reached the goal
 		else if(getIntersectingObjects(Goal.class).size() >= 1) {
 			
-			StageScene.stageCompleted ++ ;
 			StageScene.points += 50 ;
+			StageScene.stageCompleted ++ ;
 			
+			// Set goal completed image
 			getIntersectingObjects(Goal.class).get(0).setGoal() ;
+			
 			setX(300) ;
 			setY(730 + frogMovementY) ;
 		} // If frog didn't intersect with one of the objects mentioned above (platform and goal is on water) , frog will die because it fall into water
@@ -257,7 +256,8 @@ public class Animal extends Actor {
 			frogDeathByWater = true ;
 		}
 		
-		// When frog death by vehicle
+		// When frog is dead , death animation is invoked , then frog is reset to its starting position
+		// 50 score will be deducted if frog is dead , if current score isn't enough to be deducted , deduction is denied
 		if (frogDeathByVehicle) {
 
 			frogNoMove = true ;
@@ -288,18 +288,17 @@ public class Animal extends Actor {
 				frogDeathAnimation = 0 ;
 				
 				setX(300) ;
-				setY(730+frogMovementY) ;
+				setY(730 + frogMovementY) ;
+				
 				setImage(new Image("file:Resources/Frog/frogUp1.png", frogSize, frogSize, true, true)) ;
 
-				// 50 points will be deducted if died, if score isn't enough to be deducted , deduction is denied
 				if (StageScene.points >= 50) {
 					
 					StageScene.points -= 50 ;
 				}
 			}
 		}
-		
-		// When frog death by water
+
 		if (frogDeathByWater) {
 			
 			frogNoMove = true ;
@@ -337,10 +336,11 @@ public class Animal extends Actor {
 				
 				setX(300) ;
 				setY(730+frogMovementY) ;
+				
 				setImage(new Image("file:Resources/Frog/frogUp1.png", frogSize, frogSize, true, true)) ;
 				
-				// 50 points will be deducted if died, if score isn't enough to be deducted , deduction is denied
 				if (StageScene.points>=50) {
+					
 					StageScene.points-=50 ;
 				}
 			}

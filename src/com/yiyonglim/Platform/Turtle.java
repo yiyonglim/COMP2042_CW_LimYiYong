@@ -47,12 +47,15 @@ public class Turtle extends Actor{
 
 		// Turtle swimming
 		if (now/900000000  % 3 == 0) {
+			
 			setImage(turtleSwim2) ;
 		}
 		else if (now/900000000 % 3 == 1) {
+			
 			setImage(turtleSwim1) ;
 		}
 		else if (now/900000000 % 3 == 2) {
+			
 			setImage(turtleSwim3) ;
 		}
 		

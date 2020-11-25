@@ -5,8 +5,8 @@ import com.yiyonglim.Actor.Actor;
 import javafx.scene.image.Image ;
 
 /**
- * Handle digit
- * Digit together will form score board
+ * Handle digit . 
+ * Digits together will form score board
  * @author yiyonglim
  */
 public class Digit extends Actor {
@@ -14,7 +14,7 @@ public class Digit extends Actor {
 	Image digit ;
 	
 	/**
-	 * Initialize digit
+	 * Set up a digit
 	 * @param num Number of digit
 	 * @param size Digit's size
 	 * @param xpos Digit's X coordinate

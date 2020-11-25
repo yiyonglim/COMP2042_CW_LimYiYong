@@ -42,8 +42,8 @@ import javafx.stage.Stage ;
 import javafx.util.Duration ;
 
 /**
- * Main menu
- * The {@code MainMenu} class is responsible for initializing and running the game.
+ * Main menu . 
+ * This MainMenu.java is responsible for initializing and running the game.
  * @author yiyonglim
  */
 public class MainMenu extends Application {
@@ -59,7 +59,7 @@ public class MainMenu extends Application {
 	    @Override
 	    public void start(Stage primaryStage) throws Exception {
 
-	    	setMusic() ;
+	    	setMainMenuMusic() ;
 	    	
 	    	// Window interface
 	        Pane root = new Pane();
@@ -69,6 +69,16 @@ public class MainMenu extends Application {
 	        mainMenu = new GameMenu();
 	        mainMenu.setVisible(false);
 
+	        // Create game UI
+	        // Main menu background
+	        InputStream background = Files.newInputStream(Paths.get("Resources/MainMenuBackground/mainMenuBackground.gif"));
+	        Image backgroundImg = new Image(background);
+	        background.close();
+	        ImageView backgroundView = new ImageView(backgroundImg);
+	        backgroundView.setY(20);
+	        backgroundView.setFitWidth(600);
+	        backgroundView.setFitHeight(800);
+	        
 	        // Game title --> FROGGER
 	        InputStream gameTitle = Files.newInputStream(Paths.get("Resources/Font/frogger.png"));
 	        Image gameTitleImg = new Image(gameTitle);
@@ -90,20 +100,11 @@ public class MainMenu extends Application {
 	        pressEnterView.setScaleY(0.7) ;
 	        pressEnterView.setVisible(false);
 	        
-	        // Main menu background
-	        InputStream background = Files.newInputStream(Paths.get("Resources/MainMenuBackground/mainMenuBackground.gif"));
-	        Image backgroundImg = new Image(background);
-	        background.close();
-	        ImageView backgroundView = new ImageView(backgroundImg);
-	        backgroundView.setY(20);
-	        backgroundView.setFitWidth(600);
-	        backgroundView.setFitHeight(800);
-	        
 	        root.getChildren().addAll(backgroundView,gameTitleView,pressEnterView, mainMenu);
 	        
 	        Scene scene = new Scene(root);
 	        
-	        // When user's mouse enter scene , "PRESS ENTER" instruction is shown , main menu music is played
+	        // When user's mouse enter window , "PRESS ENTER" instruction is shown , main menu music is played
 	        scene.setOnMouseEntered(event -> {
 
         		mainMenuMediaPlayer.play();
@@ -158,13 +159,13 @@ public class MainMenu extends Application {
 	    }
 
 	    /**
-	     * Set up main menu , how to play and leaderboard
+	     * Set up MAIN MENU , HOW TO PLAY and LEADERBOARD
 	     * @author yiyonglim
 	     */
 	    private class GameMenu extends Parent {
 	    	
 	    	/**
-	    	 * Set up main menu , how to play and leaderboard
+	    	 * Set up MAIN MENU , HOW TO PLAY and LEADERBOARD
 	    	 * @throws IOException If an input or output exception has occurred
 	    	 */
 	        public GameMenu() throws IOException {
@@ -183,6 +184,7 @@ public class MainMenu extends Application {
 	            leaderboard.setTranslateX(offset);
 	            leaderboard.setTranslateY(200); 
 	            
+	            // Create buttons to be clicked by user at main menu
 	            Button startButton = new Button("START");
 	            startButton.setOnMouseClicked(event -> {
 
@@ -198,8 +200,10 @@ public class MainMenu extends Application {
 	                // Start stage 1
 	                Stage1 stage1 = new Stage1() ;
 	    			try {
+	    				
 	    				stage1.start(new Stage()) ;
 					} catch (Exception e) {
+						
 						e.printStackTrace();
 					}
 	            });
@@ -219,6 +223,7 @@ public class MainMenu extends Application {
 	                tt1.play();
 	                
 	                tt.setOnFinished(evt -> {
+	                	
 	                    getChildren().remove(mainMenu);
 	                });
 	            });
@@ -238,6 +243,7 @@ public class MainMenu extends Application {
 	                tt1.play();
 
 	                tt.setOnFinished(evt -> {
+	                	
 	                    getChildren().remove(howToPlay);
 	                });
 	            });
@@ -257,6 +263,7 @@ public class MainMenu extends Application {
 	                tt1.play();
 	                
 	                tt.setOnFinished(evt -> {
+	                	
 	                    getChildren().remove(mainMenu);
 	                });
 	            });
@@ -277,6 +284,7 @@ public class MainMenu extends Application {
 	                tt1.play();
 
 	                tt.setOnFinished(evt -> {
+	                	
 	                    getChildren().remove(leaderboard);
 	                });
 	            });
@@ -287,6 +295,7 @@ public class MainMenu extends Application {
 	                System.exit(0);
 	            });
 	            
+	            // Create HOW TO PLAY to teach user the controls and scoring system
 	            // Components in HOW TO PLAY
 	            InputStream controls = Files.newInputStream(Paths.get("Resources/HowToPlay/controls.gif"));
 		        Image controlsImg = new Image(controls);
@@ -360,8 +369,8 @@ public class MainMenu extends Application {
 	            xView.setScaleX(0.4);
 	            xView.setScaleY(0.4);
 	            
-	            // LEADERBOARD
-	            // Create leaderboard.txt (TOP 10 highscore)
+	            // Create LEADERBOARD to show user the TOP 10 high score
+	            // Initialize leaderboard.txt and read TOP 10 high score from it to show them at LEADERBOARD
 	            try {
 	            	
 	                File txt = new File("leaderboard.txt");
@@ -390,7 +399,6 @@ public class MainMenu extends Application {
 	                e.printStackTrace();
 	            }
 	                    
-	            // Read TOP 10 high score from leaderboard.txt and show them at LEADERBOARD
 	            int[] highScoreArray = new int[100];
         		int n = 0 ;
         		
@@ -409,14 +417,16 @@ public class MainMenu extends Application {
         	            } catch (NumberFormatException e1) {
         	                
         	            }
+        	            
         	            line = reader.readLine();
         	        }
+        	        
         	        reader.close();
         	    } catch (IOException ex) {
+        	    	
         	        System.err.println("ERROR reading scores from file");
         	    }
 	            
-        		// Sort in descending order
         		for (int i = 1; i < n; i++) {
         			
         	        int currentScore = highScoreArray[i];
@@ -493,6 +503,7 @@ public class MainMenu extends Application {
 	            getChildren().addAll(buttonEffect, text);
 
 	            setOnMouseEntered(event -> {
+	            	
 	            	playButtonSoundEffect() ;
 	                buttonEffect.setTranslateX(10);
 	                text.setTranslateX(10);
@@ -501,6 +512,7 @@ public class MainMenu extends Application {
 	            });
 
 	            setOnMouseExited(event -> {
+	            	
 	                buttonEffect.setTranslateX(0);
 	                text.setTranslateX(0);
 	                buttonEffect.setFill(Color.BLACK);
@@ -531,6 +543,7 @@ public class MainMenu extends Application {
 	        public HighScore(String name) {
 	        	
 	        	setTranslateY(-120) ;
+	        	
 	            text = new Text(name);
 	            text.setFont(Font.loadFont("file:Resources/Font/INVASION2000.ttf", 50));
 	            text.setFill(Color.WHITE);
@@ -545,6 +558,7 @@ public class MainMenu extends Application {
 	            getChildren().addAll(scoreEffect, text);
 
 	            setOnMouseEntered(event -> {
+	            	
 	                scoreEffect.setTranslateX(10);
 	                text.setTranslateX(10);
 	                scoreEffect.setFill(Color.BLACK);
@@ -552,6 +566,7 @@ public class MainMenu extends Application {
 	            });
 
 	            setOnMouseExited(event -> {
+	            	
 	                scoreEffect.setTranslateX(0);
 	                text.setTranslateX(0);
 	                scoreEffect.setFill(Color.BLACK);
@@ -564,7 +579,7 @@ public class MainMenu extends Application {
     	/**
     	 * Set main menu music
     	 */
-    	public void setMusic() {
+    	public void setMainMenuMusic() {
     		
         	String mainMenuMusicFile = "Resources/MainMenuMusicAndSoundEffect/MainMenuMusic.mp3";   
         	Media mainMenuMusic = new Media(new File(mainMenuMusicFile).toURI().toString()) ;
@@ -576,6 +591,7 @@ public class MainMenu extends Application {
 	     * Play sound effect when mouse passes buttons
 	     */
 	    public static void playButtonSoundEffect() {
+	    	
 			String buttonSoundEffectFile = "Resources/MainMenuMusicAndSoundEffect/ButtonSoundEffect.wav";   
 			Media buttonSoundEffect = new Media(new File(buttonSoundEffectFile).toURI().toString()) ;
 			MediaPlayer buttonSound = new MediaPlayer(buttonSoundEffect) ;

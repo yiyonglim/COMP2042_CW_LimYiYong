@@ -7,8 +7,8 @@ import java.util.ArrayList ;
 import com.yiyonglim.World.World;
 
 /**
- * Handle all actors
- * Actor, User control character(frog), object(truck , car , log , turtle , wet turtle) , boundary in game
+ * Handle actors . 
+ * Actors consist of user control character(frog), object(truck , car , log , turtle , wet turtle) , boundary in game
  * @author yiyonglim
  */
 public abstract class Actor extends ImageView {
@@ -34,7 +34,7 @@ public abstract class Actor extends ImageView {
     }
     
     /**
-     * Record all intersection between actors
+     * Record and return all/specific intersection between actors
      * @param <A> java.util.List
      * @param cls Class of objects to look for (passing 'null' will find all objects)
      * @return Array list of intersecting classes
