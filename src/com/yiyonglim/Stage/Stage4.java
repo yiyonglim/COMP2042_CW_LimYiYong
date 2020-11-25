@@ -59,12 +59,12 @@ public class Stage4 extends Application {
 		stageScene.add(new Vehicle("file:Resources/Truck/truck1Right.png", 600, 649, 5, 120, 120)) ;
 		stageScene.add(new Vehicle("file:Resources/Truck/truck2Right.png", 300, 540, 8, 200, 200)) ;
 		
-		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 150, 704, -5, 50, 50)) ;
-		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 500, 704, -5, 50, 50)) ;
-		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 100, 597, -5, 50, 50)) ;
-		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 550, 597, -5, 50, 50)) ;
-		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 500, 490, -5, 50, 50)) ;
-		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 700, 490, -5, 50, 50)) ;
+		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 150, 704, -3, 50, 50)) ;
+		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 500, 704, -3, 50, 50)) ;
+		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 100, 597, -3, 50, 50)) ;
+		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 550, 597, -3, 50, 50)) ;
+		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 500, 490, -3, 50, 50)) ;
+		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 700, 490, -3, 50, 50)) ;
 		
 		stageScene.add(new Digit(0, 30, 570, 25)) ;
 		

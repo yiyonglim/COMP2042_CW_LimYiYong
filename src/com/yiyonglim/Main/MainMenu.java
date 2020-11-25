@@ -206,6 +206,10 @@ public class MainMenu extends Application {
 						
 						e.printStackTrace();
 					}
+	    			
+	    			Stage currentStage = (Stage) getScene().getWindow();
+        			currentStage.close();
+        			System.gc();
 	            });
 
 	            Button howToPlayButton = new Button("HOW TO PLAY");

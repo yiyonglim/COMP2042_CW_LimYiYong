@@ -73,10 +73,6 @@ public class StageScene extends World {
             			start() ;
             		} else if (result.get() == quit) {
             			
-            			Stage stage = (Stage) getScene().getWindow();
-            			stage.close();
-            		} else {
-            			
             		    System.exit(0);
             		}
 				}
@@ -109,6 +105,7 @@ public class StageScene extends World {
             			
             			Stage currentStage = (Stage) getScene().getWindow();
             			currentStage.close();
+            			System.gc();
             		} catch (NullPointerException e) {
             			
             			System.out.println("Error closing stage 1 !") ;
@@ -135,6 +132,7 @@ public class StageScene extends World {
             			
             			Stage currentStage = (Stage) getScene().getWindow();
                 		currentStage.close();
+            			System.gc();
             		} catch (NullPointerException e) {
             			
             			System.out.println("Error closing stage 2 !") ;
@@ -160,6 +158,7 @@ public class StageScene extends World {
             			
             			Stage currentStage = (Stage) getScene().getWindow();
                 		currentStage.close();
+            			System.gc();
             		} catch (NullPointerException e) {
             			
             			System.out.println("Error closing stage 3 !") ;
@@ -185,6 +184,7 @@ public class StageScene extends World {
             			
             			Stage currentStage = (Stage) getScene().getWindow();
                 		currentStage.close();
+            			System.gc();
             		} catch (NullPointerException e) {
             			
             			System.out.println("Error closing stage 4 !") ;

@@ -64,8 +64,8 @@ public class Stage5 extends Application {
 		
 		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 500, 490, -10, 50, 50)) ;
 		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 250, 597, -3, 50, 50)) ;
-		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 100, 704, -15, 50, 50)) ;
-		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 300, 704, -15, 50, 50)) ;
+		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 100, 704, -10, 50, 50)) ;
+		stageScene.add(new Vehicle("file:Resources/Car/carLeft.png", 300, 704, -10, 50, 50)) ;
 		
 		stageScene.add(new Digit(0, 30, 570, 25)) ;
 		
