@@ -15,15 +15,21 @@ ___________________________________________________________________
   - Version control
 - Added meaningful names (packages , class , variable , method)
   - Clean codes , pleasing to read
-- Added Junit test case
+- Added JUnit test case
   - Make sure the program is executed as expected
+- Added Ant build files
+  - To produce executable jar file , FroggerGame.jar
 
 ### Key changed made (compare with original code given)
 
 >**Actor.java (com.yiyonglim.Actor)**
 
-- Removed getWidth(), getHeight(), manageInput(), getOneIntersectingObject()
-  - Unused methods
+- Removed methods
+  - getWidth()
+  - getHeight()
+  - manageInput() 
+  - getOneIntersectingObject()
+    - Unused methods
 
 > **Animal.java (com.yiyonglim.Character)**
 
@@ -69,7 +75,7 @@ ___________________________________________________________________
     -	Game scoring system is changed
   -	Bottom boundary, y-coordinate (734 -> 800)
   -	Right boundary,  x-coordinate (600 -> 570)
-  -	Frog’s base starting position , y-coordinate (679.8 -> 730)
+  -	Frog’s starting position , y-coordinate (679.8 -> 730)
     -	Game window size is set to 600 * 800
   -	Removed (getIntersectingObjects(End.class).size() >= 1)
     -	Game mechanism is changed to “enter specific goal in each stage to proceed to new stage”
@@ -96,7 +102,7 @@ ___________________________________________________________________
 -	Create game menu (Leaderboard)
       - Show top 10 high score
 
-***This whole class is fully self-made , further details and explanation of codes are at MainMenu.java***
+***This whole class is fully self-made , further details and explanation of implemented codes are at MainMenu.java***
 
 >**Vehicle.java (com.yiyonglim.Obstacle)**
 
@@ -122,7 +128,7 @@ ___________________________________________________________________
   -	turtle4 -> wetTurtleSink3
   -	speed -> wetTurtleSpeed
     -	Original variable’s name not appropriate
-- Remove variables
+- Removed variables
   -	i
   -	bool
     -	Unused variable
@@ -135,7 +141,7 @@ ___________________________________________________________________
   -	turtle3 -> turtleSwim3
   -	speed -> turtleSpeed
     -	Original variable’s name not appropriate
-- Remove variables
+- Removed variables
   -	i
   -	bool
     -	Unused variable
@@ -145,7 +151,7 @@ ___________________________________________________________________
 - Renamed variable’s name
   -	im1 -> digit
     -	Original variable’s name not appropriate
-- Remove variables
+- Removed variables
   -	dim
     -	Unused variable
 
@@ -154,7 +160,7 @@ ___________________________________________________________________
 -	Implemented 5 new stages
     -	Let user have better gaming experience
   
-***These whole classes are fully self-made , further details and explanation of codes are at Stage1.java, Stage2.java, Stage3.java, Stage4.java, Stage5.java accordingly***
+***These whole classes are fully self-made , further details and explanation of implemented codes are at Stage1.java, Stage2.java, Stage3.java, Stage4.java, Stage5.java accordingly***
 
 >**StageBackgroundImage.java (com.yiyonglim.StageBackgroundImage)**
 
