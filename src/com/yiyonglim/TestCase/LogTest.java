@@ -30,7 +30,7 @@ public class LogTest {
 		assertEquals(166.0 , test.getY(), 0.0) ;
 		
 		System.out.println("Starting position , X-coordinate : " + test.getX()) ;
-		System.out.println("Starting positino , Y-coordinate : " + test.getY()) ;
+		System.out.println("Starting position , Y-coordinate : " + test.getY()) ;
 	}
 
 	/**

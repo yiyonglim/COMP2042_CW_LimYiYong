@@ -22,7 +22,7 @@ public class StageBackgroundImageTest {
 	@Test
 	public void test() {
 		
-		System.out.println("Test case : Stage's background image") ;
+		System.out.println("\nTest case : Stage's background image") ;
 
 		StageBackgroundImage test =  new StageBackgroundImage("file:Resources/StageBackground/Stage1Background.png") ;
 		

@@ -310,9 +310,6 @@ public class AnimalTest {
 		
 		java.sql.Timestamp timestamp = java.sql.Timestamp.valueOf("2000-01-01 00:00:00.0");
 		
-		System.out.println(timestamp.getTime());
-
-		
 		WetTurtle obstacle = new WetTurtle(500, 376, -1, 130, 130) ;
 		
 		// Frog staying on wet turtle until it sunk and frog fallen into water

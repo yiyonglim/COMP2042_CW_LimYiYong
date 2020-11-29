@@ -53,7 +53,7 @@ public class WetTurtleTest {
 		
 		assertEquals(true , test.isSunk()) ;
 		
-		System.out.println("When stage first for awhile , wet turtle sunk : " + test.isSunk()) ;
+		System.out.println("When stage started for awhile , wet turtle sunk : " + test.isSunk()) ;
 	}
 	
 	/**
